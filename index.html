@@ -805,7 +805,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-01 23:05:53" itemprop="dateModified" datetime="2019-10-01T23:05:53+08:00">2019-10-01</time>
+                <time title="Modified: 2019-10-01 23:25:50" itemprop="dateModified" datetime="2019-10-01T23:25:50+08:00">2019-10-01</time>
               </span>
             
           
@@ -834,36 +834,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="设计模式分类"><a href="#设计模式分类" class="headerlink" title="设计模式分类"></a>设计模式分类</h2><h4 id="一、创建型模式"><a href="#一、创建型模式" class="headerlink" title="一、创建型模式"></a>一、创建型模式</h4><ol>
-<li>单例模式</li>
-<li>抽象工厂模式</li>
-<li>原型模式</li>
-<li>建造者模式</li>
-<li>工厂模式</li>
-</ol>
-<h4 id="二、结构型模式"><a href="#二、结构型模式" class="headerlink" title="二、结构型模式"></a>二、结构型模式</h4><ol>
-<li>适配器模式</li>
-<li>桥接模式</li>
-<li>装饰模式</li>
-<li>组合模式</li>
-<li>外观模式</li>
-<li>享元模式</li>
-<li>代理模式</li>
-</ol>
-<h4 id="三、行为型模式"><a href="#三、行为型模式" class="headerlink" title="三、行为型模式"></a>三、行为型模式</h4><ol>
-<li>模板方法模式</li>
-<li>命令模式</li>
-<li>访问者模式</li>
-<li>迭代器模式</li>
-<li>观察者模式</li>
-<li>中介者模式</li>
-<li>备忘录模式</li>
-<li>解释器模式</li>
-<li>状态模式</li>
-<li>策略模式</li>
-<li>职责链模式（责任链）</li>
-</ol>
-<h2 id="设计模式详解"><a href="#设计模式详解" class="headerlink" title="设计模式详解"></a>设计模式详解</h2><h3 id="一、单例模式"><a href="#一、单例模式" class="headerlink" title="一、单例模式"></a>一、单例模式</h3><blockquote>
+          <h2 id="创建型模式"><a href="#创建型模式" class="headerlink" title="创建型模式"></a>创建型模式</h2><h3 id="一、单例模式"><a href="#一、单例模式" class="headerlink" title="一、单例模式"></a>一、单例模式</h3><blockquote>
 <p>在整个软件系统中，某个类只能存在一个对象实例，并且该类之提供一个取得对象实例的方法</p>
 </blockquote>
 <h4 id="1-使用场景"><a href="#1-使用场景" class="headerlink" title="1.使用场景"></a>1.使用场景</h4><ol>
@@ -923,11 +894,9 @@
 <li><p><strong><em>枚举</em></strong></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过枚举实现单例</span></span><br><span class="line"><span class="comment"> * 线程安全同时防止反序列化重新创建新的对象</span></span><br><span class="line"><span class="comment"> * 推荐</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">enum</span> Singleton7 &#123;</span><br><span class="line">    INSTANCE;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">say</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-
-
 </li>
 </ol>
-
+<h3 id="二、抽象工厂模式"><a href="#二、抽象工厂模式" class="headerlink" title="二、抽象工厂模式"></a>二、抽象工厂模式</h3><h3 id="三、原型模式"><a href="#三、原型模式" class="headerlink" title="三、原型模式"></a>三、原型模式</h3><h3 id="四、建造者模式"><a href="#四、建造者模式" class="headerlink" title="四、建造者模式"></a>四、建造者模式</h3><h3 id="五、工厂模式"><a href="#五、工厂模式" class="headerlink" title="五、工厂模式"></a>五、工厂模式</h3><h2 id="结构型模式"><a href="#结构型模式" class="headerlink" title="结构型模式"></a>结构型模式</h2><h3 id="一、适配器模式"><a href="#一、适配器模式" class="headerlink" title="一、适配器模式"></a>一、适配器模式</h3><h3 id="二、桥接模式"><a href="#二、桥接模式" class="headerlink" title="二、桥接模式"></a>二、桥接模式</h3><h3 id="三、装饰模式"><a href="#三、装饰模式" class="headerlink" title="三、装饰模式"></a>三、装饰模式</h3><h3 id="四、组合模式"><a href="#四、组合模式" class="headerlink" title="四、组合模式"></a>四、组合模式</h3><h3 id="五、外观模式"><a href="#五、外观模式" class="headerlink" title="五、外观模式"></a>五、外观模式</h3><h3 id="六、享元模式"><a href="#六、享元模式" class="headerlink" title="六、享元模式"></a>六、享元模式</h3><h3 id="七、代理模式"><a href="#七、代理模式" class="headerlink" title="七、代理模式"></a>七、代理模式</h3><h2 id="行为型模式"><a href="#行为型模式" class="headerlink" title="行为型模式"></a>行为型模式</h2><h3 id="一、模板方法模式"><a href="#一、模板方法模式" class="headerlink" title="一、模板方法模式"></a>一、模板方法模式</h3><h3 id="二、命令模式"><a href="#二、命令模式" class="headerlink" title="二、命令模式"></a>二、命令模式</h3><h3 id="三、访问者模式"><a href="#三、访问者模式" class="headerlink" title="三、访问者模式"></a>三、访问者模式</h3><h3 id="四、迭代器模式"><a href="#四、迭代器模式" class="headerlink" title="四、迭代器模式"></a>四、迭代器模式</h3><h3 id="五、观察者模式"><a href="#五、观察者模式" class="headerlink" title="五、观察者模式"></a>五、观察者模式</h3><h3 id="六、中介者模式"><a href="#六、中介者模式" class="headerlink" title="六、中介者模式"></a>六、中介者模式</h3><h3 id="七、备忘录模式"><a href="#七、备忘录模式" class="headerlink" title="七、备忘录模式"></a>七、备忘录模式</h3><h3 id="八、解释器模式"><a href="#八、解释器模式" class="headerlink" title="八、解释器模式"></a>八、解释器模式</h3><h3 id="九、状态模式"><a href="#九、状态模式" class="headerlink" title="九、状态模式"></a>九、状态模式</h3><h3 id="十、策略模式"><a href="#十、策略模式" class="headerlink" title="十、策略模式"></a>十、策略模式</h3><h3 id="十一、职责链模式（责任链）"><a href="#十一、职责链模式（责任链）" class="headerlink" title="十一、职责链模式（责任链）"></a>十一、职责链模式（责任链）</h3>
         
       
     </div>
