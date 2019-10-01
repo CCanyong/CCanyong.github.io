@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Ccy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Ccy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title"></h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 1, 2019&nbsp;&nbsp;16:29:50</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h1><h2 id="1-bootstrap"><a href="#1-bootstrap" class="headerlink" title="1. bootstrap"></a>1. bootstrap</h2><h3 id="1-1-main"><a href="#1-1-main" class="headerlink" title="1.1. main"></a>1.1. main</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String args[])</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (daemon == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 实例化bootstrap对象</span></span><br><span class="line">        Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 初始化bootstrap</span></span><br><span class="line">            bootstrap.init();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">            handleThrowable(t);</span><br><span class="line">            t.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 初始化完成后进行赋值</span></span><br><span class="line">        daemon = bootstrap;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// When running as a service the call to stop will be on a new</span></span><br><span class="line">        <span class="comment">// thread so make sure the correct class loader is used to prevent</span></span><br><span class="line">        <span class="comment">// a range of class not found exceptions.</span></span><br><span class="line">        Thread.currentThread().setContextClassLoader(daemon.catalinaLoader);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        String command = <span class="string">"start"</span>;</span><br><span class="line">        <span class="keyword">if</span> (args.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            command = args[args.length - <span class="number">1</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (command.equals(<span class="string">"startd"</span>)) &#123;</span><br><span class="line">            args[args.length - <span class="number">1</span>] = <span class="string">"start"</span>;</span><br><span class="line">            daemon.load(args);</span><br><span class="line">            daemon.start();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"stopd"</span>)) &#123;</span><br><span class="line">            args[args.length - <span class="number">1</span>] = <span class="string">"stop"</span>;</span><br><span class="line">            daemon.stop();</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"start"</span>)) &#123;</span><br><span class="line">            daemon.setAwait(<span class="keyword">true</span>);</span><br><span class="line">            daemon.load(args);</span><br><span class="line">            daemon.start();</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> == daemon.getServer()) &#123;</span><br><span class="line">                System.exit(<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"stop"</span>)) &#123;</span><br><span class="line">            daemon.stopServer(args);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (command.equals(<span class="string">"configtest"</span>)) &#123;</span><br><span class="line">            daemon.load(args);</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">null</span> == daemon.getServer()) &#123;</span><br><span class="line">                System.exit(<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            System.exit(<span class="number">0</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            log.warn(<span class="string">"Bootstrap: command \""</span> + command + <span class="string">"\" does not exist."</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">        <span class="comment">// Unwrap the Exception for clearer error reporting</span></span><br><span class="line">        <span class="keyword">if</span> (t <span class="keyword">instanceof</span> InvocationTargetException &amp;&amp;</span><br><span class="line">                t.getCause() != <span class="keyword">null</span>) &#123;</span><br><span class="line">            t = t.getCause();</span><br><span class="line">        &#125;</span><br><span class="line">        handleThrowable(t);</span><br><span class="line">        t.printStackTrace();</span><br><span class="line">        System.exit(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-init"><a href="#1-2-init" class="headerlink" title="1.2. init"></a>1.2. init</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    <span class="comment">// 设置Catalina路径</span></span><br><span class="line">    setCatalinaHome();</span><br><span class="line">    setCatalinaBase();</span><br><span class="line">    <span class="comment">// 初始化类加载器</span></span><br><span class="line">    initClassLoaders();</span><br><span class="line">    </span><br><span class="line">    Thread.currentThread().setContextClassLoader(catalinaLoader);</span><br><span class="line">    SecurityClassLoad.securityClassLoad(catalinaLoader);</span><br><span class="line">    <span class="comment">// Load our startup class and call its process() method</span></span><br><span class="line">    <span class="keyword">if</span> (log.isDebugEnabled())</span><br><span class="line">        log.debug(<span class="string">"Loading startup class"</span>);</span><br><span class="line">    Class&lt;?&gt; startupClass =</span><br><span class="line">            catalinaLoader.loadClass</span><br><span class="line">                    (<span class="string">"org.apache.catalina.startup.Catalina"</span>);</span><br><span class="line">    Object startupInstance = startupClass.newInstance();</span><br><span class="line">    <span class="comment">// Set the shared extensions class loader</span></span><br><span class="line">    <span class="keyword">if</span> (log.isDebugEnabled())</span><br><span class="line">        log.debug(<span class="string">"Setting startup class properties"</span>);</span><br><span class="line">    String methodName = <span class="string">"setParentClassLoader"</span>;</span><br><span class="line">    Class&lt;?&gt; paramTypes[] = <span class="keyword">new</span> Class[<span class="number">1</span>];</span><br><span class="line">    paramTypes[<span class="number">0</span>] = Class.forName(<span class="string">"java.lang.ClassLoader"</span>);</span><br><span class="line">    Object paramValues[] = <span class="keyword">new</span> Object[<span class="number">1</span>];</span><br><span class="line">    paramValues[<span class="number">0</span>] = sharedLoader;</span><br><span class="line">    Method method =</span><br><span class="line">            startupInstance.getClass().getMethod(methodName, paramTypes);</span><br><span class="line">    method.invoke(startupInstance, paramValues);</span><br><span class="line">    catalinaDaemon = startupInstance;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-initClassLoaders"><a href="#1-3-initClassLoaders" class="headerlink" title="1.3. initClassLoaders"></a>1.3. initClassLoaders</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initClassLoaders</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">// 创建common类加载器</span></span><br><span class="line">        commonLoader = createClassLoader(<span class="string">"common"</span>, <span class="keyword">null</span>);</span><br><span class="line">        <span class="keyword">if</span> (commonLoader == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// no config file, default to this loader - we might be in a 'single' env.</span></span><br><span class="line">            commonLoader = <span class="keyword">this</span>.getClass().getClassLoader();</span><br><span class="line">        &#125;</span><br><span class="line">        catalinaLoader = createClassLoader(<span class="string">"server"</span>, commonLoader);</span><br><span class="line">        sharedLoader = createClassLoader(<span class="string">"shared"</span>, commonLoader);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Throwable t) &#123;</span><br><span class="line">        handleThrowable(t);</span><br><span class="line">        log.error(<span class="string">"Class loader creation threw exception"</span>, t);</span><br><span class="line">        System.exit(<span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-createClassLoader"><a href="#1-4-createClassLoader" class="headerlink" title="1.4.  createClassLoader"></a>1.4.  createClassLoader</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> ClassLoader <span class="title">createClassLoader</span><span class="params">(String name, ClassLoader parent)</span></span></span><br><span class="line"><span class="function">            <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">    String value = CatalinaProperties.getProperty(name + <span class="string">".loader"</span>);</span><br><span class="line">    <span class="keyword">if</span> ((value == <span class="keyword">null</span>) || (value.equals(<span class="string">""</span>)))</span><br><span class="line">        <span class="keyword">return</span> parent;</span><br><span class="line">    value = replace(value);</span><br><span class="line">    List&lt;Repository&gt; repositories = <span class="keyword">new</span> ArrayList&lt;Repository&gt;();</span><br><span class="line">    StringTokenizer tokenizer = <span class="keyword">new</span> StringTokenizer(value, <span class="string">","</span>);</span><br><span class="line">    <span class="keyword">while</span> (tokenizer.hasMoreElements()) &#123;</span><br><span class="line">        String repository = tokenizer.nextToken().trim();</span><br><span class="line">        <span class="keyword">if</span> (repository.length() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Check for a JAR URL repository</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="meta">@SuppressWarnings</span>(<span class="string">"unused"</span>)</span><br><span class="line">            URL url = <span class="keyword">new</span> URL(repository);</span><br><span class="line">            repositories.add(</span><br><span class="line">                <span class="keyword">new</span> Repository(repository, RepositoryType.URL));</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (MalformedURLException e) &#123;</span><br><span class="line">            <span class="comment">// Ignore</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Local repository</span></span><br><span class="line">        <span class="keyword">if</span> (repository.endsWith(<span class="string">"*.jar"</span>)) &#123;</span><br><span class="line">            repository = repository.substring</span><br><span class="line">                (<span class="number">0</span>, repository.length() - <span class="string">"*.jar"</span>.length());</span><br><span class="line">            repositories.add(</span><br><span class="line">                <span class="keyword">new</span> Repository(repository, RepositoryType.GLOB))</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (repository.endsWith(<span class="string">".jar"</span>)) &#123;</span><br><span class="line">            repositories.add(</span><br><span class="line">                <span class="keyword">new</span> Repository(repository, RepositoryType.JAR));</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            repositories.add(</span><br><span class="line">                <span class="keyword">new</span> Repository(repository, RepositoryType.DIR));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> ClassLoaderFactory.createClassLoader(repositories, parent);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/10/01/tomcat/">http://yoursite.com/2019/10/01/tomcat/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/10/01/hello-world/">Hello World</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
