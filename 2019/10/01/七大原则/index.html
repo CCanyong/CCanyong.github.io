@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+
+<title>设计模式之七大原则 | Hexo</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Ccy&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Ccy&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">设计模式之七大原则</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">October 1, 2019&nbsp;&nbsp;16:34:26</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h2 id="设计模式——七大原则"><a href="#设计模式——七大原则" class="headerlink" title="设计模式——七大原则"></a>设计模式——七大原则</h2><h3 id="设计模式的作用"><a href="#设计模式的作用" class="headerlink" title="设计模式的作用"></a>设计模式的作用</h3><blockquote>
+<p>设计模式是对软件设计中普遍存在的问题的解决方案，可用于提高软件的<strong>可扩展性</strong>，<strong>可维护性</strong>，<strong>代码重用性</strong>，已达成<strong>高内聚、低耦合</strong></p>
+</blockquote>
+<h3 id="七大原则"><a href="#七大原则" class="headerlink" title="七大原则"></a>七大原则</h3><h4 id="1-单一职责原则"><a href="#1-单一职责原则" class="headerlink" title="1. 单一职责原则"></a>1. 单一职责原则</h4><blockquote>
+<p>一个类只负责一个职责</p>
+</blockquote>
+<ol>
+<li>降低类的复杂度</li>
+<li>提高类的可读性、可维护性</li>
+<li>降低代码变更引起的风险</li>
+<li>只有逻辑足够简单时，才可违反单一职责原则，在方法上保持单一</li>
+</ol>
+<h4 id="2-接口隔离原则"><a href="#2-接口隔离原则" class="headerlink" title="2. 接口隔离原则"></a>2. 接口隔离原则</h4><blockquote>
+<p>客户端不应该依赖它不需要的接口，即一个类对另一个类的最小依赖应该建立在<strong>最小</strong>接口上</p>
+</blockquote>
+<h4 id="3-依赖倒转原则"><a href="#3-依赖倒转原则" class="headerlink" title="3. 依赖倒转原则"></a>3. 依赖倒转原则</h4><ol>
+<li>高层不应该以来底层模块，而这都应该依赖其抽象(接口或抽象类)</li>
+<li>抽象不应该依赖于细节，细节应该依赖抽象</li>
+<li>中心思想：面向接口编程</li>
+<li>多态的使用</li>
+</ol>
+<h4 id="4-里氏替换原则"><a href="#4-里氏替换原则" class="headerlink" title="4. 里氏替换原则"></a>4. 里氏替换原则</h4><ol>
+<li>所有引用基类的地方，都必须能透明的引用其子类</li>
+<li>子类尽量不要重写父类的方法</li>
+<li>继承会增强耦合性，可通过聚合、组合、依赖来解决问题</li>
+</ol>
+<h4 id="5-开闭原则-核心"><a href="#5-开闭原则-核心" class="headerlink" title="5. 开闭原则(核心)"></a>5. 开闭原则(核心)</h4><blockquote>
+<p>对扩展开放，对修改关闭</p>
+</blockquote>
+<ol>
+<li>用抽象构造框架，用实现扩展细节</li>
+<li>当功能需要变化时，通过扩展而不是修改来实现</li>
+<li>提供方修改扩展时，使用方不需要修改代码</li>
+</ol>
+<h4 id="6-迪米特法则-最少知道原则"><a href="#6-迪米特法则-最少知道原则" class="headerlink" title="6. 迪米特法则(最少知道原则)"></a>6. 迪米特法则(最少知道原则)</h4><ol>
+<li>一个对象应该对其他对象保持最少了解</li>
+<li>类与类之间关系越密切，耦合度越大</li>
+<li>合理的封装，一个类对自己依赖的类知道的越少越好，以此降低耦合度</li>
+</ol>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>John Doe</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="http://yoursite.com/2019/10/01/七大原则/">http://yoursite.com/2019/10/01/七大原则/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/10/01/23种设计模式/">设计模式之23种设计模式详解</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© John Doe | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+</html>
