@@ -4,6 +4,44 @@
   
     
     <entry>
+      <title>常见数据结构</title>
+      <link href="/2019/10/01/%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"/>
+      <url>/2019/10/01/%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据结构 </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>linux 命令行基本使用</title>
+      <link href="/2019/10/01/linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/"/>
+      <url>/2019/10/01/linux%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> linux </category>
+          
+      </categories>
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java内存模型</title>
       <link href="/2019/10/01/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
       <url>/2019/10/01/jvm%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/</url>
@@ -24,8 +62,8 @@
     
     <entry>
       <title>java多线程基础</title>
-      <link href="/2019/10/01/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-      <url>/2019/10/01/java%E5%A4%9A%E7%BA%BF%E7%A8%8B/</url>
+      <link href="/2019/10/01/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80/"/>
+      <url>/2019/10/01/java%E5%A4%9A%E7%BA%BF%E7%A8%8B%E5%9F%BA%E7%A1%80/</url>
       
         <content type="html"><![CDATA[]]></content>
       
@@ -112,7 +150,7 @@
     
     
     <entry>
-      <title>设计模式之23种设计模式详解</title>
+      <title>设计模式详解</title>
       <link href="/2019/08/01/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
       <url>/2019/08/01/23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/</url>
       
