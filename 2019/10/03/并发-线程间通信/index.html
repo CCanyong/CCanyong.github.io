@@ -55,15 +55,18 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="linux命令行">
-<meta property="og:url" content="http://yoursite.com/2019/10/01/linux基本命令/index.html">
+  <meta name="description" content="线程间的共享数据如何保证线程安全，以及线程与线程之间的通信机制">
+<meta property="og:type" content="article">
+<meta property="og:title" content="线程间通信">
+<meta property="og:url" content="http://yoursite.com/2019/10/03/并发-线程间通信/index.html">
 <meta property="og:site_name" content="Ccy&#39;s Blog">
+<meta property="og:description" content="线程间的共享数据如何保证线程安全，以及线程与线程之间的通信机制">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2019-10-02T08:54:53.623Z">
+<meta property="og:updated_time" content="2019-10-03T03:48:26.855Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux命令行">
-  <link rel="canonical" href="http://yoursite.com/2019/10/01/linux基本命令/">
+<meta name="twitter:title" content="线程间通信">
+<meta name="twitter:description" content="线程间的共享数据如何保证线程安全，以及线程与线程之间的通信机制">
+  <link rel="canonical" href="http://yoursite.com/2019/10/03/并发-线程间通信/">
 
 
 <script id="page-configurations">
@@ -77,7 +80,7 @@
   };
 </script>
 
-  <title>linux命令行 | Ccy's Blog</title>
+  <title>线程间通信 | Ccy's Blog</title>
   
 
 
@@ -214,7 +217,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/01/linux基本命令/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/03/并发-线程间通信/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="陈灿勇">
@@ -226,7 +229,7 @@
       <meta itemprop="name" content="Ccy's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">linux命令行
+        <h1 class="post-title" itemprop="name headline">线程间通信
 
           
         </h1>
@@ -242,19 +245,11 @@
                 
               
 
-              <time title="Created: 2019-10-01 23:31:41" itemprop="dateCreated datePublished" datetime="2019-10-01T23:31:41+08:00">2019-10-01</time>
+              <time title="Created: 2019-10-03 09:59:25 / Modified: 11:48:26" itemprop="dateCreated datePublished" datetime="2019-10-03T09:59:25+08:00">2019-10-03</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-02 16:54:53" itemprop="dateModified" datetime="2019-10-02T16:54:53+08:00">2019-10-02</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -263,7 +258,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/并发/" itemprop="url" rel="index"><span itemprop="name">并发</span></a></span>
 
                 
                 
@@ -271,6 +266,8 @@
             </span>
           
 
+          
+            <div class="post-description">线程间的共享数据如何保证线程安全，以及线程与线程之间的通信机制</div>
           
 
         </div>
@@ -282,7 +279,50 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h2 id="线程间通信"><a href="#线程间通信" class="headerlink" title="线程间通信"></a>线程间通信</h2><h3 id="一、volatile-和-synchronized-关键字"><a href="#一、volatile-和-synchronized-关键字" class="headerlink" title="一、volatile 和 synchronized 关键字"></a>一、volatile 和 synchronized 关键字</h3><h4 id="1-volatile"><a href="#1-volatile" class="headerlink" title="1. volatile"></a>1. volatile</h4><blockquote>
+<p>用于修饰字段，以此通知程序对该变量的访问都必须从共享内存中获取，对他的改变也必须同步刷新会共享内存，能保证所有线程对变量访问的可见性</p>
+</blockquote>
+<p><strong>注</strong> 过多使用被 <em>volatile</em>，会降低程序的执行效率</p>
+<h4 id="2-synchronized"><a href="#2-synchronized" class="headerlink" title="2. synchronized"></a>2. synchronized</h4><blockquote>
+<p>用于修饰方法或者一同步代码块的形式来运用，主要用于确保多个线程在同一时刻，只有一个线程能够处于方法或同步块中，保证线程对变量访问的可见性和排他性</p>
+</blockquote>
+<h4 id="3-对象监视器-synchronized"><a href="#3-对象监视器-synchronized" class="headerlink" title="3. 对象监视器 (synchronized)"></a>3. 对象监视器 (synchronized)</h4><blockquote>
+<p>每一个对象都拥有自己的监视器，当这个对象由同步代码块调用或这个对象的同步方法调用时，执行方法的线程必须先获取到该对象的监视器才能进入同步代码块或者同步方法，而没有获取到监视器的线程将会被阻塞在同步方法块或者同步方法的入口处</p>
+</blockquote>
+<!-- 获取监视器图 -->
+
+<h3 id="二、等待-通知机制"><a href="#二、等待-通知机制" class="headerlink" title="二、等待/通知机制"></a>二、等待/通知机制</h3><blockquote>
+<p>线程A调用了对象O的 <em>wait()</em> 方法后进入等待状态，另外的线程调用了O的 <em>notify()</em> 或 <em>notifyAll()*方法，线程A收到通知后从 *wait()</em> 返回，继续执行后续操作</p>
+</blockquote>
+<h4 id="1-Object中于等待-通知相关的方法"><a href="#1-Object中于等待-通知相关的方法" class="headerlink" title="1. Object中于等待/通知相关的方法"></a>1. Object中于等待/通知相关的方法</h4><table>
+<thead>
+<tr>
+<th>方法名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><em>notify()</em></td>
+<td>通知一个在对象上等待的线程，使其从 <em>wait()</em> 方法返回，返回的前提是该线程获取到该对象的锁</td>
+</tr>
+<tr>
+<td><em>notifyAll()</em></td>
+<td>通知所有等待在该对象上的线程</td>
+</tr>
+<tr>
+<td><em>wait()</em></td>
+<td>调用此方法后进入 <strong><em>WAITTTING</em></strong> 状态，只有等待其他线程通知或中断才会返回，调用此方法后，会释放对象的锁</td>
+</tr>
+<tr>
+<td><em>wait(long)</em></td>
+<td>超时等待</td>
+</tr>
+<tr>
+<td><em>wait(long, int)</em></td>
+<td>超时等待，对事件更加精准的把控</td>
+</tr>
+</tbody></table>
+
     </div>
 
     
@@ -298,8 +338,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/01/jvm内存模型/" rel="next" title="java内存模型">
-                  <i class="fa fa-chevron-left"></i> java内存模型
+                <a href="/2019/10/01/基本数据结构/" rel="next" title="常见数据结构">
+                  <i class="fa fa-chevron-left"></i> 常见数据结构
                 </a>
               
             </div>
@@ -307,10 +347,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/10/01/基本数据结构/" rel="prev" title="常见数据结构">
-                  常见数据结构 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -357,6 +393,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#线程间通信"><span class="nav-number">1.</span> <span class="nav-text">线程间通信</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、volatile-和-synchronized-关键字"><span class="nav-number">1.1.</span> <span class="nav-text">一、volatile 和 synchronized 关键字</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-volatile"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. volatile</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-synchronized"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. synchronized</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-对象监视器-synchronized"><span class="nav-number">1.1.3.</span> <span class="nav-text">3. 对象监视器 (synchronized)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、等待-通知机制"><span class="nav-number">1.2.</span> <span class="nav-text">二、等待/通知机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Object中于等待-通知相关的方法"><span class="nav-number">1.2.1.</span> <span class="nav-text">1. Object中于等待/通知相关的方法</span></a></li></ol></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
