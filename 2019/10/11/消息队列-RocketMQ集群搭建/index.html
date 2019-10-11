@@ -55,18 +55,20 @@
   };
 </script>
 
-  <meta name="description" content="rocketMQ的入门：安装 -&amp;gt; 启动 -&amp;gt; 测试">
+  <meta name="description" content="RocketMQ的各个角色作用，集群搭建的方式以及其优缺点，适用场景">
 <meta property="og:type" content="article">
-<meta property="og:title" content="RocketMQ入门">
-<meta property="og:url" content="http://yoursite.com/2019/10/11/消息队列-RocketMQ快速入门/index.html">
+<meta property="og:title" content="RocketMQ集群搭建">
+<meta property="og:url" content="http://yoursite.com/2019/10/11/消息队列-RocketMQ集群搭建/index.html">
 <meta property="og:site_name" content="Ccy&#39;s Blog">
-<meta property="og:description" content="rocketMQ的入门：安装 -&amp;gt; 启动 -&amp;gt; 测试">
+<meta property="og:description" content="RocketMQ的各个角色作用，集群搭建的方式以及其优缺点，适用场景">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2019-10-11T11:19:57.930Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97-rocketMQ%E9%9B%86%E7%BE%A4%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:updated_time" content="2019-10-11T15:36:05.446Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="RocketMQ入门">
-<meta name="twitter:description" content="rocketMQ的入门：安装 -&amp;gt; 启动 -&amp;gt; 测试">
-  <link rel="canonical" href="http://yoursite.com/2019/10/11/消息队列-RocketMQ快速入门/">
+<meta name="twitter:title" content="RocketMQ集群搭建">
+<meta name="twitter:description" content="RocketMQ的各个角色作用，集群搭建的方式以及其优缺点，适用场景">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97-rocketMQ%E9%9B%86%E7%BE%A4%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+  <link rel="canonical" href="http://yoursite.com/2019/10/11/消息队列-RocketMQ集群搭建/">
 
 
 <script id="page-configurations">
@@ -80,7 +82,7 @@
   };
 </script>
 
-  <title>RocketMQ入门 | Ccy's Blog</title>
+  <title>RocketMQ集群搭建 | Ccy's Blog</title>
   
 
 
@@ -217,7 +219,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/11/消息队列-RocketMQ快速入门/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/11/消息队列-RocketMQ集群搭建/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="陈灿勇">
@@ -229,7 +231,7 @@
       <meta itemprop="name" content="Ccy's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">RocketMQ入门
+        <h1 class="post-title" itemprop="name headline">RocketMQ集群搭建
 
           
         </h1>
@@ -245,7 +247,7 @@
                 
               
 
-              <time title="Created: 2019-10-11 10:07:49 / Modified: 19:19:57" itemprop="dateCreated datePublished" datetime="2019-10-11T10:07:49+08:00">2019-10-11</time>
+              <time title="Created: 2019-10-11 22:43:56 / Modified: 23:36:05" itemprop="dateCreated datePublished" datetime="2019-10-11T22:43:56+08:00">2019-10-11</time>
             </span>
           
             
@@ -267,7 +269,7 @@
           
 
           
-            <div class="post-description">rocketMQ的入门：安装 -> 启动 -> 测试</div>
+            <div class="post-description">RocketMQ的各个角色作用，集群搭建的方式以及其优缺点，适用场景</div>
           
 
         </div>
@@ -279,43 +281,77 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="一、安装以及配置"><a href="#一、安装以及配置" class="headerlink" title="一、安装以及配置"></a>一、安装以及配置</h3><h4 id="1-安装"><a href="#1-安装" class="headerlink" title="1. 安装"></a>1. 安装</h4><blockquote>
-<p>从<a href="http://rocketmq.apache.org/" target="_blank" rel="noopener">官网</a>下载二进制文件后解压</p>
+        <h3 id="一、六大角色"><a href="#一、六大角色" class="headerlink" title="一、六大角色"></a>一、六大角色</h3><h4 id="1-Producer"><a href="#1-Producer" class="headerlink" title="1. Producer"></a>1. Producer</h4><blockquote>
+<p>消息生产者，负责发送消息到消息队列</p>
 </blockquote>
-<h4 id="2-修改配置文件"><a href="#2-修改配置文件" class="headerlink" title="2. 修改配置文件"></a>2. 修改配置文件</h4><ol>
-<li><p>修改 <em>bin</em> 目录下 <strong><em>runbroker.sh</em></strong></p>
+<h4 id="2-Consumer"><a href="#2-Consumer" class="headerlink" title="2. Consumer"></a>2. Consumer</h4><blockquote>
+<p>消息消费者，从消息队列中接收消息</p>
+</blockquote>
+<h4 id="3-Broker"><a href="#3-Broker" class="headerlink" title="3. Broker"></a>3. Broker</h4><blockquote>
+<p>暂存和传输消息</p>
+</blockquote>
+<h4 id="4-NameServer"><a href="#4-NameServer" class="headerlink" title="4. NameServer"></a>4. NameServer</h4><blockquote>
+<p>管理Broker，类似注册中心</p>
+</blockquote>
+<h4 id="5-Topic"><a href="#5-Topic" class="headerlink" title="5. Topic"></a>5. Topic</h4><blockquote>
+<p>消息种类</p>
+</blockquote>
+<h4 id="6-MessageQueue"><a href="#6-MessageQueue" class="headerlink" title="6. MessageQueue"></a>6. MessageQueue</h4><blockquote>
+<p>Topic的分区，用于并行发送接受消息</p>
+</blockquote>
+<h3 id="二、集群搭建"><a href="#二、集群搭建" class="headerlink" title="二、集群搭建"></a>二、集群搭建</h3><p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97-rocketMQ%E9%9B%86%E7%BE%A4%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="集群搭建示意图"></p>
+<h4 id="1-集群介绍"><a href="#1-集群介绍" class="headerlink" title="1. 集群介绍"></a>1. 集群介绍</h4><h5 id="1-1-NameServer-集群"><a href="#1-1-NameServer-集群" class="headerlink" title="1.1 NameServer 集群"></a>1.1 NameServer 集群</h5><blockquote>
+<p>几乎无状态，每一个 <em>NameServer</em> 都具有相同的信息，因为每一个 <em>broker</em> 都需要向 <em>NameServer</em> 注册</p>
+</blockquote>
+<h5 id="1-2-Broker-集群"><a href="#1-2-Broker-集群" class="headerlink" title="1.2 Broker 集群"></a>1.2 Broker 集群</h5><blockquote>
+<p>分主从结构，一个 <em>master</em> 可对一个或多个<em>slave*，一个 *slave</em> 只能对应一个 <em>master*。 *master</em> 用于写，即发送者发送消息给 <em>master</em> ，<em>slave</em> 用于读，即接受者从 <em>slave</em> 读取消息。<em>Broker</em> 根据 <em>name</em> 分组，<em>name</em> 相同为一组，根据 <em>ID</em> 分主从，<em>ID</em> 为 <em>0</em> 为 <em>Master</em> ，非 0 为 <em>slave</em> ，<em>master</em> 与 <em>slave</em> 之间的消息同步可异步复制也可同步复制。</p>
+</blockquote>
+<h5 id="1-3-Producer-集群"><a href="#1-3-Producer-集群" class="headerlink" title="1.3 Producer 集群"></a>1.3 Producer 集群</h5><h5 id="1-4-Consumer-集群"><a href="#1-4-Consumer-集群" class="headerlink" title="1.4 Consumer 集群"></a>1.4 Consumer 集群</h5><h4 id="2-集群搭建方式"><a href="#2-集群搭建方式" class="headerlink" title="2. 集群搭建方式"></a>2. 集群搭建方式</h4><h5 id="2-1-单-Master-模式"><a href="#2-1-单-Master-模式" class="headerlink" title="2.1 单 Master 模式"></a>2.1 单 Master 模式</h5><blockquote>
+<p>不建议使用，风险大，当 <em>master</em> 宕机时，服务崩溃</p>
+</blockquote>
+<h5 id="2-2-多-Master-模式"><a href="#2-2-多-Master-模式" class="headerlink" title="2.2 多 Master 模式"></a>2.2 多 Master 模式</h5><ol>
+<li><p>优点</p>
 <blockquote>
-<p>找到以下位置：</p>
+<p>简单易部署，单个master宕机对整个服务无较大影响</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPT="$&#123;JAVA_OPT&#125; -server -Xms8g -Xmx8g -Xmn4g"</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>将内存修改为于自己电脑配置相容的大小，我修改为：</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPT="$&#123;JAVA_OPT&#125; -server -Xms256m -Xmx256m -Xmn128m"</span><br></pre></td></tr></table></figure>
 </li>
-<li><p>修改 <em>bin</em> 目录下 <strong><em>runserver.sh</em></strong></p>
+<li><p>缺点</p>
 <blockquote>
-<p>找到以下位置：</p>
+<p>宕机时未被消费的消息在机器恢复之前不可订阅，导致实时性较低</p>
 </blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPT="$&#123;JAVA_OPT&#125; -server -Xms4g -Xmx4g -Xmn3g -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m"</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>将内存修改为于自己电脑配置相容的大小，我修改为：</p>
-</blockquote>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">JAVA_OPT="$&#123;JAVA_OPT&#125; -server -Xms256m -Xmx256m -Xmn128m -XX:MetaspaceSize=128m -XX:MaxMetaspaceSize=320m"</span><br></pre></td></tr></table></figure>
-
-
-
 </li>
 </ol>
-<h3 id="二、启动及关闭-RocketMQ"><a href="#二、启动及关闭-RocketMQ" class="headerlink" title="二、启动及关闭 RocketMQ"></a>二、启动及关闭 RocketMQ</h3><h4 id="1-启动"><a href="#1-启动" class="headerlink" title="1. 启动"></a>1. 启动</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 进入bin目录</span><br><span class="line"><span class="meta">$</span> cd bin/</span><br><span class="line"><span class="meta">#</span> 启动 nameserver</span><br><span class="line"><span class="meta">$</span> nohup sh mqnamesrv &amp;</span><br><span class="line"><span class="meta">#</span> 启动 broker 连接上 nameserver，默认端口为 9876</span><br><span class="line"><span class="meta">$</span> nohup sh mqbroker -n localhost:9876 &amp;</span><br><span class="line"><span class="meta">#</span> 查看是否启动</span><br><span class="line"><span class="meta">$</span> jps</span><br><span class="line">5569 NamesrvStartup</span><br><span class="line">5697 Jps</span><br><span class="line">5597 BrokerStartup</span><br></pre></td></tr></table></figure>
+<h5 id="2-3-多-Master-多-Slave-模式（异步）"><a href="#2-3-多-Master-多-Slave-模式（异步）" class="headerlink" title="2.3 多 Master 多 Slave 模式（异步）"></a>2.3 多 Master 多 Slave 模式（异步）</h5><blockquote>
+<p>一个 <em>master</em> 对应一个 <em>slave</em> ，多对主从结构， <em>master</em> 和 <em>slave</em> 之间的复制采用异步复制 ，即发送者将消息发送到 <em>master</em> 后立即返回，然后在进行复制</p>
+</blockquote>
+<ol>
+<li><p>优点</p>
+<blockquote>
+<p>消息处理速度快</p>
+</blockquote>
+</li>
+<li><p>缺点</p>
+<blockquote>
+<p>当 <em>master</em> 宕机时，可能导致部分消息无法异步复制到 <em>slave</em> ，造成消息丢失</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="2-4-多-Master-多-Slave-模式（）"><a href="#2-4-多-Master-多-Slave-模式（）" class="headerlink" title="2.4 多 Master 多 Slave 模式（）"></a>2.4 多 Master 多 Slave 模式（）</h5><blockquote>
+<p>一个 <em>master</em> 对应一个 <em>slave</em> ，多对主从结构， <em>master</em> 和 <em>slave</em> 之间的复制采用同步复制 。即发送者将消息发送到 <em>master</em> 后等消息从 <em>master</em> 复制到 <em>slave</em> 成功后才返回成功。</p>
+</blockquote>
+<ol>
+<li><p>优点</p>
+<blockquote>
+<p>消息的可靠性高，安全</p>
+</blockquote>
+</li>
+<li><p>缺点</p>
+<blockquote>
+<p>消息处理速度较异步处理较慢</p>
+</blockquote>
+</li>
+</ol>
 
-<h4 id="2-关闭"><a href="#2-关闭" class="headerlink" title="2. 关闭"></a>2. 关闭</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 关闭 broker</span><br><span class="line"><span class="meta">$</span> sh mqshutdown broker</span><br><span class="line">The mqbroker(5597) is running...</span><br><span class="line">Send shutdown request to mqbroker(5597) OK</span><br><span class="line"><span class="meta">#</span> 关闭 nameserver</span><br><span class="line"><span class="meta">$</span> sh mqshutdown namesrv</span><br><span class="line">The mqnamesrv(5569) is running...</span><br><span class="line">Send shutdown request to mqnamesrv(5569) OK</span><br><span class="line">[2]+  Exit 143                nohup sh mqbroker -n localhost:9876</span><br></pre></td></tr></table></figure>
-
-<h3 id="三、测试-RocketMQ"><a href="#三、测试-RocketMQ" class="headerlink" title="三、测试 RocketMQ"></a>三、测试 RocketMQ</h3><h4 id="1-shell-测试"><a href="#1-shell-测试" class="headerlink" title="1. shell 测试"></a>1. shell 测试</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 启动生产者，生产者发送完消息后会自动关闭</span><br><span class="line"><span class="meta">$</span> export NAMESRV_ADDR=localhost:9876</span><br><span class="line"><span class="meta">$</span> sh tools.sh org.apache.rocketmq.example.quickstart.Producer</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 启动消费者，消费者线程会不断监听有没有新消息</span><br><span class="line"><span class="meta">$</span> export NAMESRV_ADDR=localhost:9876</span><br><span class="line"><span class="meta">$</span> sh tools.sh org.apache.rocketmq.example.quickstart.Consumer</span><br></pre></td></tr></table></figure>
-
-<h4 id="2-java-测试"><a href="#2-java-测试" class="headerlink" title="2. java 测试"></a>2. java 测试</h4>
     </div>
 
     
@@ -331,8 +367,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/03/设计模式-行为型模式/" rel="next" title="设计模式之行为型模式">
-                  <i class="fa fa-chevron-left"></i> 设计模式之行为型模式
+                <a href="/2019/10/11/消息队列-MQ简介/" rel="next" title="消息中间件介绍">
+                  <i class="fa fa-chevron-left"></i> 消息中间件介绍
                 </a>
               
             </div>
@@ -340,10 +376,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/10/11/消息队列-MQ简介/" rel="prev" title="消息中间件介绍">
-                  消息中间件介绍 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -390,7 +422,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、安装以及配置"><span class="nav-number">1.</span> <span class="nav-text">一、安装以及配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-安装"><span class="nav-number">1.1.</span> <span class="nav-text">1. 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-修改配置文件"><span class="nav-number">1.2.</span> <span class="nav-text">2. 修改配置文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、启动及关闭-RocketMQ"><span class="nav-number">2.</span> <span class="nav-text">二、启动及关闭 RocketMQ</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-启动"><span class="nav-number">2.1.</span> <span class="nav-text">1. 启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-关闭"><span class="nav-number">2.2.</span> <span class="nav-text">2. 关闭</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、测试-RocketMQ"><span class="nav-number">3.</span> <span class="nav-text">三、测试 RocketMQ</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-shell-测试"><span class="nav-number">3.1.</span> <span class="nav-text">1. shell 测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-java-测试"><span class="nav-number">3.2.</span> <span class="nav-text">2. java 测试</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、六大角色"><span class="nav-number">1.</span> <span class="nav-text">一、六大角色</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Producer"><span class="nav-number">1.1.</span> <span class="nav-text">1. Producer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Consumer"><span class="nav-number">1.2.</span> <span class="nav-text">2. Consumer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Broker"><span class="nav-number">1.3.</span> <span class="nav-text">3. Broker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-NameServer"><span class="nav-number">1.4.</span> <span class="nav-text">4. NameServer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Topic"><span class="nav-number">1.5.</span> <span class="nav-text">5. Topic</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-MessageQueue"><span class="nav-number">1.6.</span> <span class="nav-text">6. MessageQueue</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、集群搭建"><span class="nav-number">2.</span> <span class="nav-text">二、集群搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-集群介绍"><span class="nav-number">2.1.</span> <span class="nav-text">1. 集群介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-NameServer-集群"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1 NameServer 集群</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-Broker-集群"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2 Broker 集群</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-Producer-集群"><span class="nav-number">2.1.3.</span> <span class="nav-text">1.3 Producer 集群</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-Consumer-集群"><span class="nav-number">2.1.4.</span> <span class="nav-text">1.4 Consumer 集群</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-集群搭建方式"><span class="nav-number">2.2.</span> <span class="nav-text">2. 集群搭建方式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-单-Master-模式"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1 单 Master 模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-多-Master-模式"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2 多 Master 模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-多-Master-多-Slave-模式（异步）"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.3 多 Master 多 Slave 模式（异步）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-多-Master-多-Slave-模式（）"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.4 多 Master 多 Slave 模式（）</span></a></li></ol></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->
