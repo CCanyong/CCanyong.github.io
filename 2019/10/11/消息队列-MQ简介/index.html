@@ -55,15 +55,22 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="linux命令行">
-<meta property="og:url" content="http://yoursite.com/2019/10/01/linux-命令行/index.html">
+  <meta name="description" content="消息中间件的基本作用介绍以及常见消息中间件对比">
+<meta property="og:type" content="article">
+<meta property="og:title" content="消息中间件介绍">
+<meta property="og:url" content="http://yoursite.com/2019/10/11/消息队列-MQ简介/index.html">
 <meta property="og:site_name" content="Ccy&#39;s Blog">
+<meta property="og:description" content="消息中间件的基本作用介绍以及常见消息中间件对比">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2019-10-03T14:51:52.136Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/消息队列-异步解耦.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/消息队列-削峰.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/消息队列-扩展性.png">
+<meta property="og:updated_time" content="2019-10-11T12:22:28.506Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="linux命令行">
-  <link rel="canonical" href="http://yoursite.com/2019/10/01/linux-命令行/">
+<meta name="twitter:title" content="消息中间件介绍">
+<meta name="twitter:description" content="消息中间件的基本作用介绍以及常见消息中间件对比">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/消息队列-异步解耦.png">
+  <link rel="canonical" href="http://yoursite.com/2019/10/11/消息队列-MQ简介/">
 
 
 <script id="page-configurations">
@@ -77,7 +84,7 @@
   };
 </script>
 
-  <title>linux命令行 | Ccy's Blog</title>
+  <title>消息中间件介绍 | Ccy's Blog</title>
   
 
 
@@ -214,7 +221,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/01/linux-命令行/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/11/消息队列-MQ简介/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="陈灿勇">
@@ -226,7 +233,7 @@
       <meta itemprop="name" content="Ccy's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">linux命令行
+        <h1 class="post-title" itemprop="name headline">消息中间件介绍
 
           
         </h1>
@@ -242,19 +249,11 @@
                 
               
 
-              <time title="Created: 2019-10-01 23:31:41" itemprop="dateCreated datePublished" datetime="2019-10-01T23:31:41+08:00">2019-10-01</time>
+              <time title="Created: 2019-10-11 19:26:29 / Modified: 20:22:28" itemprop="dateCreated datePublished" datetime="2019-10-11T19:26:29+08:00">2019-10-11</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-03 22:51:52" itemprop="dateModified" datetime="2019-10-03T22:51:52+08:00">2019-10-03</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -263,7 +262,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/消息队列/" itemprop="url" rel="index"><span itemprop="name">消息队列</span></a></span>
 
                 
                 
@@ -271,6 +270,8 @@
             </span>
           
 
+          
+            <div class="post-description">消息中间件的基本作用介绍以及常见消息中间件对比</div>
           
 
         </div>
@@ -282,7 +283,72 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h3 id="一、为什么要使用消息队列"><a href="#一、为什么要使用消息队列" class="headerlink" title="一、为什么要使用消息队列"></a>一、为什么要使用消息队列</h3><h4 id="1-解耦及异步"><a href="#1-解耦及异步" class="headerlink" title="1. 解耦及异步"></a>1. 解耦及异步</h4><blockquote>
+<p>使用消息队列可以将同步调用变为异步调用，同时降低系统模块之间的耦合度</p>
+</blockquote>
+<img src="https://raw.githubusercontent.com/CCanyong/pictures/master/消息队列-异步解耦.png" alt="解耦" style="zoom:80%;">
+
+<h4 id="2-削峰"><a href="#2-削峰" class="headerlink" title="2. 削峰"></a>2. 削峰</h4><blockquote>
+<p>当系统压力过大时，将操作缓存在消息队列中，后面不断读取消息进行操作，达到削峰的目的</p>
+</blockquote>
+<img src="https://raw.githubusercontent.com/CCanyong/pictures/master/消息队列-削峰.png" alt="削峰" style="zoom:80%;">
+
+<h4 id="3-复用-可拓展性"><a href="#3-复用-可拓展性" class="headerlink" title="3. 复用(可拓展性)"></a>3. 复用(可拓展性)</h4><blockquote>
+<p>如果系统A要发送消息给多个系统，此时每增加一个子系统，系统A的代码就需要修改，使用消息队列之后，系统A将消息发送到消息队列，其他系统读取消息即可。新增系统时只需到消息队列和宗读取消息即可</p>
+</blockquote>
+<img src="https://raw.githubusercontent.com/CCanyong/pictures/master/消息队列-扩展性.png" alt="复用" style="zoom: 80%;">
+
+<h3 id="二、需要注意事项"><a href="#二、需要注意事项" class="headerlink" title="二、需要注意事项"></a>二、需要注意事项</h3><h4 id="1-注意提高可用性"><a href="#1-注意提高可用性" class="headerlink" title="1. 注意提高可用性"></a>1. 注意提高可用性</h4><blockquote>
+<p>当MQ服务器宕机时，备用方案。</p>
+</blockquote>
+<h4 id="2-系统复杂度提高"><a href="#2-系统复杂度提高" class="headerlink" title="2. 系统复杂度提高"></a>2. 系统复杂度提高</h4><ol>
+<li>消息重复消费问题</li>
+<li>消息丢失问题</li>
+<li>消息传递顺序问题</li>
+</ol>
+<h4 id="3-一致性问题"><a href="#3-一致性问题" class="headerlink" title="3. 一致性问题"></a>3. 一致性问题</h4><blockquote>
+<p>当多系统处理同一条消息时，同步调用可直接返回失败，使用消息队列的异步调用该如何处理</p>
+</blockquote>
+<h3 id="三、-常见消息中间件对比"><a href="#三、-常见消息中间件对比" class="headerlink" title="三、 常见消息中间件对比"></a>三、 常见消息中间件对比</h3><table>
+<thead>
+<tr>
+<th></th>
+<th>ActiveMQ</th>
+<th>RabbitMQ</th>
+<th>RocketMQ</th>
+<th>Kafka</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>实现语言</td>
+<td>java</td>
+<td>erlang</td>
+<td>java</td>
+<td>scala</td>
+</tr>
+<tr>
+<td>吞吐量</td>
+<td>万级</td>
+<td>万级</td>
+<td>十万级</td>
+<td>十万级</td>
+</tr>
+<tr>
+<td>时效</td>
+<td>ms</td>
+<td>微秒</td>
+<td>ms</td>
+<td>ms</td>
+</tr>
+<tr>
+<td>可用性</td>
+<td>高（主从）</td>
+<td>高（主从）</td>
+<td>非常高（分布式）</td>
+<td>非常高（分布式）</td>
+</tr>
+</tbody></table>
+
     </div>
 
     
@@ -298,8 +364,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/01/jvm-内存模型/" rel="next" title="java内存模型">
-                  <i class="fa fa-chevron-left"></i> java内存模型
+                <a href="/2019/10/11/消息队列-RocketMQ快速入门/" rel="next" title="RocketMQ入门">
+                  <i class="fa fa-chevron-left"></i> RocketMQ入门
                 </a>
               
             </div>
@@ -307,10 +373,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/10/01/基本数据结构/" rel="prev" title="常见数据结构">
-                  常见数据结构 <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -357,6 +419,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、为什么要使用消息队列"><span class="nav-number">1.</span> <span class="nav-text">一、为什么要使用消息队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-解耦及异步"><span class="nav-number">1.1.</span> <span class="nav-text">1. 解耦及异步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-削峰"><span class="nav-number">1.2.</span> <span class="nav-text">2. 削峰</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-复用-可拓展性"><span class="nav-number">1.3.</span> <span class="nav-text">3. 复用(可拓展性)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、需要注意事项"><span class="nav-number">2.</span> <span class="nav-text">二、需要注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-注意提高可用性"><span class="nav-number">2.1.</span> <span class="nav-text">1. 注意提高可用性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-系统复杂度提高"><span class="nav-number">2.2.</span> <span class="nav-text">2. 系统复杂度提高</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-一致性问题"><span class="nav-number">2.3.</span> <span class="nav-text">3. 一致性问题</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、-常见消息中间件对比"><span class="nav-number">3.</span> <span class="nav-text">三、 常见消息中间件对比</span></a></li></ol></div>
+        
       </div>
       <!--/noindex-->
 
