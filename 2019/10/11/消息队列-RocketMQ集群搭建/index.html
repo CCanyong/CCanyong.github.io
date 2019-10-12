@@ -63,7 +63,7 @@
 <meta property="og:description" content="RocketMQ的各个角色作用，集群搭建的方式以及其优缺点，适用场景">
 <meta property="og:locale" content="zh">
 <meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97-rocketMQ%E9%9B%86%E7%BE%A4%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
-<meta property="og:updated_time" content="2019-10-12T14:50:44.733Z">
+<meta property="og:updated_time" content="2019-10-12T16:54:49.923Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RocketMQ集群搭建">
 <meta name="twitter:description" content="RocketMQ的各个角色作用，集群搭建的方式以及其优缺点，适用场景">
@@ -258,7 +258,7 @@
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-12 22:50:44" itemprop="dateModified" datetime="2019-10-12T22:50:44+08:00">2019-10-12</time>
+                <time title="Modified: 2019-10-13 00:54:49" itemprop="dateModified" datetime="2019-10-13T00:54:49+08:00">2019-10-13</time>
               </span>
             
           
@@ -359,9 +359,9 @@
 </blockquote>
 </li>
 </ol>
-<h4 id="3-搭建双主双从的异步集群"><a href="#3-搭建双主双从的异步集群" class="headerlink" title="3. 搭建双主双从的异步集群"></a>3. 搭建双主双从的异步集群</h4><h5 id="3-1-使用-docker-拉取-RocketMQ-镜像文件"><a href="#3-1-使用-docker-拉取-RocketMQ-镜像文件" class="headerlink" title="3.1 使用 docker 拉取 RocketMQ 镜像文件"></a>3.1 使用 docker 拉取 RocketMQ 镜像文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># docker pull rocketmqinc/rocketmq</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-搭建双主双从的异步集群"><a href="#3-搭建双主双从的异步集群" class="headerlink" title="3. 搭建双主双从的异步集群"></a>3. 搭建双主双从的异步集群</h4><h5 id="3-1-使用-docker-拉取-RocketMQ-镜像文件"><a href="#3-1-使用-docker-拉取-RocketMQ-镜像文件" class="headerlink" title="3.1 使用 docker 拉取 RocketMQ 镜像文件"></a>3.1 使用 docker 拉取 RocketMQ 镜像文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull rocketmqinc/rocketmq</span><br></pre></td></tr></table></figure>
 
-<h5 id="3-2-创建-nameserver-容器"><a href="#3-2-创建-nameserver-容器" class="headerlink" title="3.2 创建 nameserver 容器"></a>3.2 创建 nameserver 容器</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker container create --name rocketmq_ns_1 \</span><br><span class="line">-p 19876:9876 \</span><br><span class="line">-v /home/ccy/rocketMQ/nameserver1/logs/:/opt/logs \</span><br><span class="line">-v /home/ccy/rocketMQ/nameserver1/store/:/opt/store \</span><br><span class="line">-it rocketmqinc/rocketmq:latest</span><br></pre></td></tr></table></figure>
+<h5 id="3-2-创建-nameserver-容器"><a href="#3-2-创建-nameserver-容器" class="headerlink" title="3.2 创建 nameserver 容器"></a>3.2 创建 nameserver 容器</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker container create --name rocketmq_ns_1 \</span><br><span class="line">-p 19876:9876 \</span><br><span class="line">-v /home/ccy/rocketMQ/nameserver1/logs/:/opt/logs \</span><br><span class="line">-v /home/ccy/rocketMQ/nameserver1/store/:/opt/store \</span><br><span class="line">-it rocketmqinc/rocketmq:latest</span><br></pre></td></tr></table></figure>
 
 
     </div>
