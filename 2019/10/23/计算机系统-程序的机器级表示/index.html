@@ -55,15 +55,21 @@
   };
 </script>
 
-  <meta property="og:type" content="article">
-<meta property="og:title" content="常见数据结构">
-<meta property="og:url" content="http://yoursite.com/2019/10/01/基本数据结构/index.html">
+  <meta name="description" content="数据格式 由于计算机体系是由16位开始扩展的，术语 “ 字 ” 表示16位数据类型，32位为 “ 双字 ” ，64位为 “ 四字 ”。  一、访问信息（以x86-64为例） 中央处理器包含一组16个存储64位值的通用目的寄存器，用来存储整数数据和指针   1. 数据存储规则 生成1、2字节数据时，剩下的字节保持不变 生成4字节时高位4字节全部置0  2. 操作数2.1 立即数 用来表示常数值  2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ccy&#39;s Blog">
+<meta property="og:url" content="http://yoursite.com/2019/10/23/计算机系统-程序的机器级表示/index.html">
 <meta property="og:site_name" content="Ccy&#39;s Blog">
+<meta property="og:description" content="数据格式 由于计算机体系是由16位开始扩展的，术语 “ 字 ” 表示16位数据类型，32位为 “ 双字 ” ，64位为 “ 四字 ”。  一、访问信息（以x86-64为例） 中央处理器包含一组16个存储64位值的通用目的寄存器，用来存储整数数据和指针   1. 数据存储规则 生成1、2字节数据时，剩下的字节保持不变 生成4字节时高位4字节全部置0  2. 操作数2.1 立即数 用来表示常数值  2">
 <meta property="og:locale" content="zh">
-<meta property="og:updated_time" content="2019-10-01T15:33:52.301Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F-x86-64%E5%AF%84%E5%AD%98%E5%99%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F-%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%BC%E5%BC%8F.png">
+<meta property="og:updated_time" content="2019-10-23T12:30:04.992Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="常见数据结构">
-  <link rel="canonical" href="http://yoursite.com/2019/10/01/基本数据结构/">
+<meta name="twitter:title" content="Ccy&#39;s Blog">
+<meta name="twitter:description" content="数据格式 由于计算机体系是由16位开始扩展的，术语 “ 字 ” 表示16位数据类型，32位为 “ 双字 ” ，64位为 “ 四字 ”。  一、访问信息（以x86-64为例） 中央处理器包含一组16个存储64位值的通用目的寄存器，用来存储整数数据和指针   1. 数据存储规则 生成1、2字节数据时，剩下的字节保持不变 生成4字节时高位4字节全部置0  2. 操作数2.1 立即数 用来表示常数值  2">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F-x86-64%E5%AF%84%E5%AD%98%E5%99%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+  <link rel="canonical" href="http://yoursite.com/2019/10/23/计算机系统-程序的机器级表示/">
 
 
 <script id="page-configurations">
@@ -77,7 +83,7 @@
   };
 </script>
 
-  <title>常见数据结构 | Ccy's Blog</title>
+  <title> | Ccy's Blog</title>
   
 
 
@@ -214,7 +220,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/01/基本数据结构/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/23/计算机系统-程序的机器级表示/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="陈灿勇">
@@ -226,7 +232,7 @@
       <meta itemprop="name" content="Ccy's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">常见数据结构
+        <h1 class="post-title" itemprop="name headline">
 
           
         </h1>
@@ -242,25 +248,12 @@
                 
               
 
-              <time title="Created: 2019-10-01 23:33:21 / Modified: 23:33:52" itemprop="dateCreated datePublished" datetime="2019-10-01T23:33:21+08:00">2019-10-01</time>
+              <time title="Created: 2019-10-23 19:54:17 / Modified: 20:30:04" itemprop="dateCreated datePublished" datetime="2019-10-23T19:54:17+08:00">2019-10-23</time>
             </span>
           
             
 
             
-          
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/数据结构/" itemprop="url" rel="index"><span itemprop="name">数据结构</span></a></span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -274,7 +267,70 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h3 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h3><blockquote>
+<p>由于计算机体系是由16位开始扩展的，术语 <strong><em>“ 字 ”</em></strong> 表示16位数据类型，32位为 <strong><em>“ 双字 ”</em></strong> ，64位为 <strong><em>“ 四字 ”</em></strong>。</p>
+</blockquote>
+<h3 id="一、访问信息（以x86-64为例）"><a href="#一、访问信息（以x86-64为例）" class="headerlink" title="一、访问信息（以x86-64为例）"></a>一、访问信息（以x86-64为例）</h3><blockquote>
+<p>中央处理器包含一组16个存储64位值的通用目的寄存器，用来存储整数数据和指针</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F-x86-64%E5%AF%84%E5%AD%98%E5%99%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="x86-64寄存器示意图.png"></p>
+<h4 id="1-数据存储规则"><a href="#1-数据存储规则" class="headerlink" title="1. 数据存储规则"></a>1. 数据存储规则</h4><ul>
+<li>生成1、2字节数据时，剩下的字节保持不变</li>
+<li>生成4字节时高位4字节全部置0</li>
+</ul>
+<h4 id="2-操作数"><a href="#2-操作数" class="headerlink" title="2. 操作数"></a>2. 操作数</h4><h5 id="2-1-立即数"><a href="#2-1-立即数" class="headerlink" title="2.1 立即数"></a>2.1 立即数</h5><blockquote>
+<p>用来表示常数值</p>
+</blockquote>
+<h5 id="2-2-寄存器"><a href="#2-2-寄存器" class="headerlink" title="2.2 寄存器"></a>2.2 寄存器</h5><blockquote>
+<p>表示某个寄存器的内容，寄存器的低位1、2、4、8字节中的一个作为操作数</p>
+</blockquote>
+<h5 id="2-3-内存引用"><a href="#2-3-内存引用" class="headerlink" title="2.3 内存引用"></a>2.3 内存引用</h5><blockquote>
+<p>会根据计算出来的内存地址访问某个内存位置                                                       </p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F-%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%BC%E5%BC%8F.png" alt="操作数格式"></p>
+<h4 id="3-数据传送指令"><a href="#3-数据传送指令" class="headerlink" title="3. 数据传送指令"></a>3. 数据传送指令</h4><blockquote>
+<p>将数据从一个位置复制到另一个位置</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>MOV    src, dest</td>
+<td>dest  &lt;- src</td>
+<td>传送数据</td>
+</tr>
+<tr>
+<td>movb    src, dest</td>
+<td></td>
+<td>传送字节</td>
+</tr>
+<tr>
+<td>movw    src, dest</td>
+<td></td>
+<td>传送字</td>
+</tr>
+<tr>
+<td>movl    src, dest</td>
+<td></td>
+<td>传送双字</td>
+</tr>
+<tr>
+<td>movq    src, dest</td>
+<td></td>
+<td>传送四字</td>
+</tr>
+<tr>
+<td>movabsq    I, R</td>
+<td>R &lt;- I</td>
+<td>传送绝对四字</td>
+</tr>
+</tbody></table>
+
     </div>
 
     
@@ -290,8 +346,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/01/linux-命令行/" rel="next" title="linux命令行">
-                  <i class="fa fa-chevron-left"></i> linux命令行
+                <a href="/2019/10/16/计算机系统-信息处理/" rel="next" title="计算机硬件组成">
+                  <i class="fa fa-chevron-left"></i> 计算机硬件组成
                 </a>
               
             </div>
@@ -300,8 +356,8 @@
 
             <div class="post-nav-prev post-nav-item">
               
-                <a href="/2019/10/03/并发-线程间通信/" rel="prev" title="线程间通信">
-                  线程间通信 <i class="fa fa-chevron-right"></i>
+                <a href="/2019/11/02/mysql-存储引擎/" rel="prev" title="mysql存储引擎">
+                  mysql存储引擎 <i class="fa fa-chevron-right"></i>
                 </a>
               
             </div>
@@ -349,6 +405,8 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据格式"><span class="nav-number">1.</span> <span class="nav-text">数据格式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一、访问信息（以x86-64为例）"><span class="nav-number">2.</span> <span class="nav-text">一、访问信息（以x86-64为例）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-数据存储规则"><span class="nav-number">2.1.</span> <span class="nav-text">1. 数据存储规则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-操作数"><span class="nav-number">2.2.</span> <span class="nav-text">2. 操作数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-立即数"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1 立即数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-寄存器"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2 寄存器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-内存引用"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.3 内存引用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-数据传送指令"><span class="nav-number">2.3.</span> <span class="nav-text">3. 数据传送指令</span></a></li></ol></li></ol></div>
+        
       </div>
       <!--/noindex-->
 

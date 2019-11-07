@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="mysql数据类型介绍，以及相关的使用场景">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql数据类型">
+<meta property="og:url" content="http://yoursite.com/2019/11/08/mysql-数据类型/index.html">
+<meta property="og:site_name" content="Ccy&#39;s Blog">
+<meta property="og:description" content="mysql数据类型介绍，以及相关的使用场景">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/mysql-%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95.png">
+<meta property="og:updated_time" content="2019-11-07T23:40:15.660Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql数据类型">
+<meta name="twitter:description" content="mysql数据类型介绍，以及相关的使用场景">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/mysql-%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95.png">
+  <link rel="canonical" href="http://yoursite.com/2019/11/08/mysql-数据类型/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>mysql数据类型 | Ccy's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ccy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-首页">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-question-circle"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-分类">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-归档">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/08/mysql-数据类型/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈灿勇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ccy's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">mysql数据类型
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-11-08 07:36:20 / Modified: 07:40:15" itemprop="dateCreated datePublished" datetime="2019-11-08T07:36:20+08:00">2019-11-08</time>
+            </span>
+          
+            
+
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <div class="post-description">mysql数据类型介绍，以及相关的使用场景</div>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一、数值类型"><a href="#一、数值类型" class="headerlink" title="一、数值类型"></a>一、数值类型</h3><h4 id="1-整型"><a href="#1-整型" class="headerlink" title="1. 整型"></a>1. 整型</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>字节</th>
+<th>范围（有符号）</th>
+<th>范围（无符号）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>TINYINT</td>
+<td>1</td>
+<td>-128~127</td>
+<td>0~255</td>
+</tr>
+<tr>
+<td>SMALLINT</td>
+<td>2</td>
+<td>-32768~32767</td>
+<td>0~65535</td>
+</tr>
+<tr>
+<td>MEDIUMINT</td>
+<td>3</td>
+<td>-8388608~8388607</td>
+<td>0~1677215</td>
+</tr>
+<tr>
+<td>INT、INTEGER</td>
+<td>4</td>
+<td>-2147483648~2147483647</td>
+<td>0~4294967295</td>
+</tr>
+<tr>
+<td>BIGINT</td>
+<td>8</td>
+<td>-9223372036854775808<br>~9223372036854775807</td>
+<td>0~18446744073709551615</td>
+</tr>
+</tbody></table>
+<h4 id="二、浮点数与定点数"><a href="#二、浮点数与定点数" class="headerlink" title="二、浮点数与定点数"></a>二、浮点数与定点数</h4><table>
+<thead>
+<tr>
+<th>浮点数</th>
+<th>字节</th>
+<th>方范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<h5 id="2-1-对比"><a href="#2-1-对比" class="headerlink" title="2.1 对比"></a>2.1 对比</h5><ol>
+<li><p>浮点数(运算操作会损失精度)</p>
+<blockquote>
+<p>浮点数一般用于表示含有小数部分的数值。当一个字段被定义为浮点类型后，如果插入数据的精度超过该列定义的实际精度，则插入值会被四舍五入到实际定义的精度值，然后插入，四舍五入的过程不会报错。在 <em>MySQL</em> 中 <em>float、double（或 real）</em> 用来表示浮点数。</p>
+</blockquote>
+</li>
+<li><p>定点数</p>
+<blockquote>
+<p>定点数不同于浮点数，定点数实际上是以<strong>字符串</strong>形式存放的，所以定点数可以更精确地保存数据。如果实际插入的数值精度大于实际定义的精度，则 <em>MySQL</em> 会进行警告（默认的 <em>SQLMode</em> 下），但是数据按照实际精度四舍五入后插入；如果 <em>SQLMode</em> 是在<em>TRADITIONAL</em>  （传统模式）下，则系统会直接报错，导致数据无法插入。在 <em>MySQL</em> 中，<em>decimal（或 numberic）</em>用来表示定点数。</p>
+</blockquote>
+</li>
+</ol>
+<h5 id="2-2-使用注意"><a href="#2-2-使用注意" class="headerlink" title="2.2 使用注意"></a>2.2 使用注意</h5><ol>
+<li>浮点数存在误差问题</li>
+<li>对货币等对精度敏感的数据，应该用定点数表示或存储</li>
+<li>在编程中，如果用到浮点数，要特别注意误差问题，并尽量避免做浮点数比较</li>
+<li>要注意浮点数中一些特殊值的处理</li>
+</ol>
+<h3 id="二、CHAR-与-VARCHAR"><a href="#二、CHAR-与-VARCHAR" class="headerlink" title="二、CHAR 与 VARCHAR"></a>二、<em>CHAR</em> 与 <em>VARCHAR</em></h3><blockquote>
+<p><em>CHAR</em> 和 <em>VARCHAR</em> 类型类似，都用来存储字符串，但它们保存和检索的方式不同。<em>CHAR</em> 属于<strong>固定长度</strong>的字符类型，而 <em>VARCHAR</em> 属于<strong>可变长度</strong>的字符类型。</p>
+</blockquote>
+<h4 id="1-对比"><a href="#1-对比" class="headerlink" title="1. 对比"></a>1. 对比</h4><h5 id="1-1-空格处理"><a href="#1-1-空格处理" class="headerlink" title="1.1 空格处理"></a>1.1 空格处理</h5><blockquote>
+<p><em>CHAR</em> 类型字符串尾部的<strong>空格自动去掉</strong>，中间和前缀空格不会被处理，当保存字符串尾部带空格是选择 <em>VARCHAR</em> </p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test4 VALUES(' qwerty  ',' qwerty  ');</span><br><span class="line">Query OK, 1 row affected (0.13 sec)</span><br><span class="line"><span class="meta">#</span> CHAR 尾部空格被删除</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT c1,LENGTH(c1) c1_len,c2,LENGTH(c2) c2_len from test4;</span><br><span class="line">+---------+--------+-----------+--------+</span><br><span class="line">| c1      | c1_len | c2        | c2_len |</span><br><span class="line">+---------+--------+-----------+--------+</span><br><span class="line">|  qwerty |      7 |  qwerty   |      9 |</span><br><span class="line">+---------+--------+-----------+--------+</span><br><span class="line"><span class="meta">#</span> 拼接数据查看效果</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT CONCAT(c1,'--'),CONCAT(c2,'--') FROM test4;</span><br><span class="line">+-----------------+-----------------+</span><br><span class="line">| CONCAT(c1,'--') | CONCAT(c2,'--') |</span><br><span class="line">+-----------------+-----------------+</span><br><span class="line">|  qwerty--       |  qwerty  --     |</span><br><span class="line">+-----------------+-----------------+</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-2-优缺点"><a href="#1-2-优缺点" class="headerlink" title="1.2 优缺点"></a>1.2 优缺点</h5><ol>
+<li><p>CHAR</p>
+<blockquote>
+<p>长度固定，处理速度快，但浪费内存，长度范围        </p>
+</blockquote>
+</li>
+<li><p>VARCHAR</p>
+<blockquote>
+<p>长度可变，处理速度较 <em>CHAR</em> 慢，内存利用高</p>
+</blockquote>
+</li>
+<li><p>选择</p>
+<blockquote>
+<p>当长度范围变化不大时或数据需要经常修改时使用 <em>CHAR*，当数据类型长度跨度较大且不常修改时使用 *VARCHAR</em> ,<em>VARCHAR</em> 类型修改后若长度增加，则会造成行迁移，导致 <em>I/O</em> 操作，影响性能</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="2-不同存储引擎使用原则"><a href="#2-不同存储引擎使用原则" class="headerlink" title="2. 不同存储引擎使用原则"></a>2. 不同存储引擎使用原则</h4><h5 id="2-1-MyISAM"><a href="#2-1-MyISAM" class="headerlink" title="2.1 MyISAM"></a>2.1 MyISAM</h5><blockquote>
+<p>建议使用固定长度的数据列代替可变长度的数据列。</p>
+</blockquote>
+<h5 id="2-2-MEMORY"><a href="#2-2-MEMORY" class="headerlink" title="2.2 MEMORY"></a>2.2 MEMORY</h5><blockquote>
+<p><strong>目前都使用固定长度的数据行存储</strong>，因此无论使用 <em>CHAR</em> 或 <em>VARCHAR</em> 列都没有关系。两者都是作为 <em>CHAR</em> 类型处理。</p>
+</blockquote>
+<h5 id="2-3-InnoDB"><a href="#2-3-InnoDB" class="headerlink" title="2.3 InnoDB"></a>2.3 InnoDB</h5><blockquote>
+<p>建议使用 <em>VARCHAR</em> 类型。对于 <em>InnoDB</em> 数据表，内部的行存储格式没有区分固定长度和可变长度列（所有数据行都使用指向数据列值的头指针），因此在本质上，使用固定长度的 <em>CHAR</em> 列不一定比使用可变长度 <em>VARCHAR</em> 列性能要好。因而，主要的性能因素是数据行使用的存储总量。由于 <em>CHAR</em> 平均占用的空间多于 <em>VARCHAR</em> ，因此使用 <em>VARCHAR</em> 来最小化需要处理的数据行的存储总量和磁盘 <em>I/O</em> 是比较好的。</p>
+</blockquote>
+<h3 id="三、TEXT-与-BLOB"><a href="#三、TEXT-与-BLOB" class="headerlink" title="三、TEXT 与 BLOB"></a>三、<em>TEXT</em> 与 <em>BLOB</em></h3><blockquote>
+<p>一般在保存<strong>少量字符串</strong>的时候，我们会选择 <em>CHAR</em> 或者 <em>VARCHAR</em> ；而在保存<strong>较大文本</strong>时，通常会选择使用 <em>TEXT</em> 或者 <em>BLOB</em> 。二者之间的主要差别是 <em>BLOB</em> 能用来保存<strong>二进制</strong>数据，文字和文件；而TEXT只能保存<strong>字符数据</strong>(文字)</p>
+</blockquote>
+<h4 id="1-删除造成的内存”空洞“"><a href="#1-删除造成的内存”空洞“" class="headerlink" title="1. 删除造成的内存”空洞“"></a>1. 删除造成的内存”空洞“</h4><h5 id="1-1-原因"><a href="#1-1-原因" class="headerlink" title="1.1 原因"></a>1.1 原因</h5><blockquote>
+<p>删除操作会在数据表中留下很大的“空洞”，以后填入这些“空洞”的记录在插入的性能上会有影响。</p>
+</blockquote>
+<h5 id="1-2-优化"><a href="#1-2-优化" class="headerlink" title="1.2 优化"></a>1.2 优化</h5><blockquote>
+<p>为了提高性能，建议定期使用 <strong><em>OPTIMIZE TABLE</em></strong> 功能对这类表进行碎片整理，避免因为“空洞”导致性能问题。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 创建测试表(MyISAM 引擎)</span><br><span class="line"><span class="meta">mysql&gt;</span>  CREATE TABLE `test5` (</span><br><span class="line"><span class="meta">  	-&gt;</span> `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line"><span class="meta">  	-&gt;</span> `detail` text,</span><br><span class="line"><span class="meta">  	-&gt;</span> PRIMARY KEY (`id`)</span><br><span class="line"><span class="meta">	-&gt;</span> ) ENGINE=MyISAM DEFAULT CHARSET=utf8</span><br><span class="line"><span class="meta">#</span> 重复插入数据数100次，插入后文件大小为48kb</span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test5(detail) VALUES(repeat("qwertyuiop",10));</span><br><span class="line">Query OK, 1 row affected (0.40 sec)</span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test5(detail) VALUES(repeat("qwertyuiop",100));</span><br><span class="line">Query OK, 1 row affected (0.40 sec)</span><br><span class="line"><span class="meta">#</span> 删除中间数据，删除后数据文件大小未减小</span><br><span class="line"><span class="meta">mysql&gt;</span> DELETE FROM test5 WHERE id &gt; 20 AND id&lt;40;</span><br><span class="line"><span class="meta">#</span> 对表进行优化操作，优化后大小未36kb</span><br><span class="line"><span class="meta">mysql&gt;</span> OPTIMIZE TABLE test5;</span><br><span class="line">+-------------------+----------+----------+----------+</span><br><span class="line">| Table             | Op       | Msg_type | Msg_text |</span><br><span class="line">+-------------------+----------+----------+----------+</span><br><span class="line">| learn_mysql.test5 | optimize | status   | OK       |</span><br><span class="line">+-------------------+----------+----------+----------+</span><br><span class="line">1 row in set (0.02 sec)</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-检索"><a href="#2-检索" class="headerlink" title="2. 检索"></a>2. 检索</h4><h5 id="2-1-合成索引"><a href="#2-1-合成索引" class="headerlink" title="2.1 合成索引"></a>2.1 合成索引</h5><blockquote>
+<p>合成索引就是根据大文本字段的内容建立一个散列值，并把这个值存储在单独的数据列中，接下来就可以通过检索散列值找到数据行了。但是，要注意这种技术只能用于<strong><em>精确匹配</em></strong> 的查询（散列值对于类似“&lt;”或“&gt;=”等范围搜索操作符是没有用处的）</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 建汉合成索引的表</span><br><span class="line"><span class="meta">mysql&gt;</span> CREATE TABLE `test5` (</span><br><span class="line"><span class="meta">  	-&gt;</span> `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line"><span class="meta">  	-&gt;</span> `detail` text,</span><br><span class="line"><span class="meta">  	-&gt;</span> `md5_val` varchar(50) DEFAULT NULL,</span><br><span class="line"><span class="meta">  	-&gt;</span> PRIMARY KEY (`id`)</span><br><span class="line"><span class="meta">	-&gt;</span> ) ENGINE=MyISAM DEFAULT CHARSET=utf8</span><br><span class="line"><span class="meta">#</span> 重复多次插入数据</span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test5(detail,md5_val) 					VALUE(repeat('huhu',10),MD5(detail));</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test5(detail,md5_val) VALUE(repeat('haha',10),MD5(detail));</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test5(detail,md5_val) VALUE(repeat('xixi',10),MD5(detail));</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test5(detail,md5_val) VALUE(repeat('hehe',10),MD5(detail));</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 根据文本内容查询，耗时0.1s</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test5 WHERE detail=repeat('huhu',10);</span><br><span class="line"><span class="meta">	#</span> 省略查询结果</span><br><span class="line">11 rows in set (0.10 sec)</span><br><span class="line"><span class="meta">#</span> 根据合成索引查询，耗时忽略不计</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test5 WHERE md5_val=MD5(repeat('huhu',10));</span><br><span class="line"><span class="meta">	#</span> 省略查询结果</span><br><span class="line">11 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-前缀索引"><a href="#2-2-前缀索引" class="headerlink" title="2.2 前缀索引"></a>2.2 前缀索引</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 创建前缀索引</span><br><span class="line"><span class="meta">mysql&gt;</span> CREATE INDEX idx_detail ON test5(detail(50));</span><br><span class="line">Query OK, 65 rows affected (0.15 sec)</span><br><span class="line">Records: 65  Duplicates: 0  Warnings: 0</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/mysql-%E5%89%8D%E7%BC%80%E7%B4%A2%E5%BC%95.png" alt="mysql-前缀索引"></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 模糊查询</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test5 WHERE detail LIKE 'i am ccy%';</span><br><span class="line">+-----+----------------------------------------------------------------------------------+----------------------------------+</span><br><span class="line">| id  | detail                                                                           | md5_val                          |</span><br><span class="line">+-----+----------------------------------------------------------------------------------+----------------------------------+</span><br><span class="line">| 151 | i am ccyi am ccyi am ccyi am ccyi am ccyi am ccyi am ccyi am ccyi am ccyi am ccy | 7156ed4126f8fb4ee15fa71d84b9814f |</span><br><span class="line">| 174 | i am ccyi am ccyi am ccyi am ccyi am ccyi am ccyi am ccyi am ccyi am ccyi am ccy | 7156ed4126f8fb4ee15fa71d84b9814f |</span><br><span class="line">+-----+----------------------------------------------------------------------------------+----------------------------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-3-优化查询"><a href="#2-3-优化查询" class="headerlink" title="2.3 优化查询"></a>2.3 优化查询</h5><ol>
+<li><p>避免检索大型的BLOB或TEXT值</p>
+<blockquote>
+<p>SELECT *  查询就不是很好的想法，除非能够确定作为约束条件的 <em>WHERE</em> 子句只会找到所需要的数据行。否则，很可能毫无目的地在网络上传输大量的值。可以将一些特征数据放在索引列，根据特征数据确定范围时候再对 <em>BOLO</em> 和 <em>TEXT</em> 进行检索</p>
+</blockquote>
+</li>
+<li><p>把BLOB或TEXT列分离到单独的表中</p>
+<blockquote>
+<p>在某些环境中，如果把这些数据列移动到第二张数据表中，可以把原数据表中的数据列转换为固定长度的数据行格式，那么它就是有意义的。这会减少主表中的碎片，可以得到固定长度数据行的性能优势。它还可以使主数据表在运行 SELECT * 查询的时候不会通过网络传输大量的 <em>BLOB</em> 或 <em>TEXT</em> 值。</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="四、日期类型"><a href="#四、日期类型" class="headerlink" title="四、日期类型"></a>四、日期类型</h3><h4 id="1-对比-1"><a href="#1-对比-1" class="headerlink" title="1. 对比"></a>1. 对比</h4><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>字节</th>
+<th>范围</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>YEAR</td>
+<td>1</td>
+<td>1901 ~ 2155</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>4</td>
+<td>1000-01-01 ~ 9999-12-31</td>
+</tr>
+<tr>
+<td>DATETIME</td>
+<td>8</td>
+<td>1000-01-01 00:00:00 ~ 9999-12-31 23:59:59</td>
+</tr>
+<tr>
+<td>TIMESTAMP</td>
+<td>4</td>
+<td>1970010108001 ~ 2038年的某个时刻</td>
+</tr>
+<tr>
+<td>TIEM</td>
+<td>3</td>
+<td>-838:59:59 ~ 838:59:59</td>
+</tr>
+</tbody></table>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/11/02/mysql-存储引擎/" rel="next" title="mysql存储引擎">
+                  <i class="fa fa-chevron-left"></i> mysql存储引擎
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、数值类型"><span class="nav-number">1.</span> <span class="nav-text">一、数值类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-整型"><span class="nav-number">1.1.</span> <span class="nav-text">1. 整型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#二、浮点数与定点数"><span class="nav-number">1.2.</span> <span class="nav-text">二、浮点数与定点数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-对比"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 对比</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-使用注意"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 使用注意</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、CHAR-与-VARCHAR"><span class="nav-number">2.</span> <span class="nav-text">二、CHAR 与 VARCHAR</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-对比"><span class="nav-number">2.1.</span> <span class="nav-text">1. 对比</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-空格处理"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1 空格处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-优缺点"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2 优缺点</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-不同存储引擎使用原则"><span class="nav-number">2.2.</span> <span class="nav-text">2. 不同存储引擎使用原则</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-MyISAM"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1 MyISAM</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-MEMORY"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2 MEMORY</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-InnoDB"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.3 InnoDB</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、TEXT-与-BLOB"><span class="nav-number">3.</span> <span class="nav-text">三、TEXT 与 BLOB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-删除造成的内存”空洞“"><span class="nav-number">3.1.</span> <span class="nav-text">1. 删除造成的内存”空洞“</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-原因"><span class="nav-number">3.1.1.</span> <span class="nav-text">1.1 原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-优化"><span class="nav-number">3.1.2.</span> <span class="nav-text">1.2 优化</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-检索"><span class="nav-number">3.2.</span> <span class="nav-text">2. 检索</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-合成索引"><span class="nav-number">3.2.1.</span> <span class="nav-text">2.1 合成索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-前缀索引"><span class="nav-number">3.2.2.</span> <span class="nav-text">2.2 前缀索引</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-优化查询"><span class="nav-number">3.2.3.</span> <span class="nav-text">2.3 优化查询</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、日期类型"><span class="nav-number">4.</span> <span class="nav-text">四、日期类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-对比-1"><span class="nav-number">4.1.</span> <span class="nav-text">1. 对比</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">陈灿勇</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">21</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/yourname" title="GitHub &rarr; https://github.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈灿勇</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
