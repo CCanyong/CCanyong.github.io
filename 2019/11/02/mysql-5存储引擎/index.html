@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="插件式存储引擎式mysql数据库最重要的特性之一，用户可以根据应用的需要选择如何存储和索引数据、是否使用事务等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql存储引擎">
+<meta property="og:url" content="http://yoursite.com/2019/11/02/mysql-5存储引擎/index.html">
+<meta property="og:site_name" content="Ccy&#39;s Blog">
+<meta property="og:description" content="插件式存储引擎式mysql数据库最重要的特性之一，用户可以根据应用的需要选择如何存储和索引数据、是否使用事务等">
+<meta property="og:locale" content="zh">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/mysql-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%88%97%E8%A1%A8.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/mysql-MyISAM%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.png">
+<meta property="og:updated_time" content="2019-11-07T23:40:34.928Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql存储引擎">
+<meta name="twitter:description" content="插件式存储引擎式mysql数据库最重要的特性之一，用户可以根据应用的需要选择如何存储和索引数据、是否使用事务等">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/mysql-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%88%97%E8%A1%A8.png">
+  <link rel="canonical" href="http://yoursite.com/2019/11/02/mysql-5存储引擎/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>mysql存储引擎 | Ccy's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ccy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-首页">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-question-circle"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-分类">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-归档">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/02/mysql-5存储引擎/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈灿勇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ccy's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">mysql存储引擎
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-11-02 05:07:04" itemprop="dateCreated datePublished" datetime="2019-11-02T05:07:04+08:00">2019-11-02</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-08 07:40:34" itemprop="dateModified" datetime="2019-11-08T07:40:34+08:00">2019-11-08</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <div class="post-description">插件式存储引擎式mysql数据库最重要的特性之一，用户可以根据应用的需要选择如何存储和索引数据、是否使用事务等</div>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一、MySQL存储引擎概述"><a href="#一、MySQL存储引擎概述" class="headerlink" title="一、MySQL存储引擎概述"></a>一、MySQL存储引擎概述</h3><blockquote>
+<p>插件式存储引擎是MySQL数据库最重要的特性之一，用户可以根据应用的需要选择如何存储和索引数据、是否使用事务等。</p>
+</blockquote>
+<h4 id="1-MySQL支持"><a href="#1-MySQL支持" class="headerlink" title="1. MySQL支持"></a>1. MySQL支持</h4><blockquote>
+<p>MySQL 5.0支持的存储引擎包括MyISAM、InnoDB、BDB、MEMORY、MERGE、EXAMPLE、NDB Cluster、ARCHIVE、CSV、BLACKHOLE、FEDERATED等，其中 InnoDB和BDB提供事务安全表，其他存储引擎都是非事务安全表。</p>
+</blockquote>
+<h4 id="2-默认存储引擎"><a href="#2-默认存储引擎" class="headerlink" title="2. 默认存储引擎"></a>2. 默认存储引擎</h4><blockquote>
+<p>MySQL 5.5之前的的默认存储引擎是MyISAM，5.5之后改为了InnoDB</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查看存储引擎</span><br><span class="line"><span class="meta">mysql&gt;</span> show engines;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/mysql-%E5%AD%98%E5%82%A8%E5%BC%95%E6%93%8E%E5%88%97%E8%A1%A8.png" alt="MySQL存储引擎"></p>
+<h4 id="3-使用存储引擎"><a href="#3-使用存储引擎" class="headerlink" title="3. 使用存储引擎"></a>3. 使用存储引擎</h4><h5 id="3-1-创建表时指定存储引擎"><a href="#3-1-创建表时指定存储引擎" class="headerlink" title="3.1 创建表时指定存储引擎"></a>3.1 创建表时指定存储引擎</h5><blockquote>
+<p>增加ENGINE关键字设置新建表的存储引擎</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> CREATE TABLE test_engine(</span><br><span class="line">    -&gt; id int NOT NULL,</span><br><span class="line">    -&gt; name char(10) NOT NULL,</span><br><span class="line">    -&gt; birthday date NULL)</span><br><span class="line">    -&gt; ENGINE=MyISAM;</span><br><span class="line">Query OK, 0 rows affected (0.46 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-2-查看表使用的存储引擎"><a href="#3-2-查看表使用的存储引擎" class="headerlink" title="3.2 查看表使用的存储引擎"></a>3.2 查看表使用的存储引擎</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SHOW CREATE TABLE test_engine;</span><br><span class="line">+-------------+------------------------------------------------------------+</span><br><span class="line">| Table       | Create Table                                               |</span><br><span class="line">+-------------+------------------------------------------------------------+</span><br><span class="line">| test_engine | CREATE TABLE `test_engine` (</span><br><span class="line">                  `id` int(11) NOT NULL,</span><br><span class="line">                  `name` char(10) NOT NULL,</span><br><span class="line">                  `birthday` date DEFAULT NULL</span><br><span class="line">                ) ENGINE=MyISAM DEFAULT CHARSET=utf8 |</span><br><span class="line">+-------------+------------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="3-3-修改表存储引擎"><a href="#3-3-修改表存储引擎" class="headerlink" title="3.3 修改表存储引擎"></a>3.3 修改表存储引擎</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 将存储引擎由MyISAM修改为Innodb</span><br><span class="line"><span class="meta">mysql&gt;</span>  ALTER TABLE test_engine ENGINE=Innodb;</span><br><span class="line">Query OK, 0 rows affected (0.84 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"><span class="meta">#</span> 查看修改结果</span><br><span class="line"><span class="meta">mysql&gt;</span> SHOW CREATE TABLE test_engine;</span><br><span class="line">+-------------+------------------------------------------------------------+</span><br><span class="line">| Table       | Create Table                                               |</span><br><span class="line">+-------------+------------------------------------------------------------+</span><br><span class="line">| test_engine | CREATE TABLE `test_engine` (</span><br><span class="line">                  `id` int(11) NOT NULL,</span><br><span class="line">                  `name` char(10) NOT NULL,</span><br><span class="line">                  `birthday` date DEFAULT NULL</span><br><span class="line">                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</span><br><span class="line">+-------------+------------------------------------------------------------+</span><br><span class="line">1 row in set (0.01 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="二、存储引擎特性"><a href="#二、存储引擎特性" class="headerlink" title="二、存储引擎特性"></a>二、存储引擎特性</h3><table>
+<thead>
+<tr>
+<th align="center">特点</th>
+<th align="center">MyISAM</th>
+<th align="center">InnoDB</th>
+<th align="center">MEMORY</th>
+<th align="center">MERGE</th>
+<th align="center">NDB</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">存储限制</td>
+<td align="center">有</td>
+<td align="center">64TB</td>
+<td align="center">有</td>
+<td align="center">无</td>
+<td align="center">有</td>
+</tr>
+<tr>
+<td align="center">事务安全</td>
+<td align="center"></td>
+<td align="center">支持</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">锁机制</td>
+<td align="center">表锁</td>
+<td align="center">行锁</td>
+<td align="center">表锁</td>
+<td align="center">表锁</td>
+<td align="center">行锁</td>
+</tr>
+<tr>
+<td align="center">B树索引</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">哈希索引</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center">支持</td>
+<td align="center"></td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">全文索引</td>
+<td align="center">支持</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">集群索引</td>
+<td align="center"></td>
+<td align="center">支持</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">数据缓存</td>
+<td align="center"></td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center"></td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">索引缓存</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+<td align="center">支持</td>
+</tr>
+<tr>
+<td align="center">数据可压缩</td>
+<td align="center">支持</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">空间使用</td>
+<td align="center">低</td>
+<td align="center">高</td>
+<td align="center">N/A</td>
+<td align="center">低</td>
+<td align="center">低</td>
+</tr>
+<tr>
+<td align="center">内存使用</td>
+<td align="center">低</td>
+<td align="center">高</td>
+<td align="center">中</td>
+<td align="center">低</td>
+<td align="center">高</td>
+</tr>
+<tr>
+<td align="center">批量插入速度</td>
+<td align="center">高</td>
+<td align="center">低</td>
+<td align="center">高</td>
+<td align="center">高</td>
+<td align="center">高</td>
+</tr>
+<tr>
+<td align="center">支持外键</td>
+<td align="center"></td>
+<td align="center">支持</td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
+<h4 id="1-MyISAM"><a href="#1-MyISAM" class="headerlink" title="1. MyISAM"></a>1. MyISAM</h4><blockquote>
+<p><em>MyISAM</em> 是 <em>MySQL 5.5</em> 之前默认的存储引擎，<strong>不支持事务，也不支持外键</strong> 。优点是访问速度快，对事务完整性没有要求或者以 <em>SELECT</em> 、<em>INSERT</em> 为主的应用基本上都可以使用这个存储引擎来创建表</p>
+</blockquote>
+<h5 id="1-1-创建使用MyISAM的表"><a href="#1-1-创建使用MyISAM的表" class="headerlink" title="1.1 创建使用MyISAM的表"></a>1.1 创建使用MyISAM的表</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SHOW CREATE TABLE test2;</span><br><span class="line">+-------+------------------------------------------------------------------+</span><br><span class="line">| Table | Create Table                                                     |</span><br><span class="line">+-------+------------------------------------------------------------------+</span><br><span class="line">| test2 | CREATE TABLE `test2` (</span><br><span class="line">            `id` int(11) NOT NULL,</span><br><span class="line">            `name` char(10) DEFAULT NULL</span><br><span class="line">          ) ENGINE=MyISAM DEFAULT CHARSET=utf8 							|</span><br><span class="line">+-------+------------------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-2-存储结构"><a href="#1-2-存储结构" class="headerlink" title="1.2 存储结构"></a>1.2 存储结构</h5><blockquote>
+<p>每一个使用 <em>MyISAM</em> 创建的表都会在磁盘上生成3个文件</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/mysql-MyISAM%E5%AD%98%E5%82%A8%E7%BB%93%E6%9E%84.png" alt></p>
+<ol>
+<li><p>文件相关</p>
+<ul>
+<li>table_name.frm（存储表的定义）</li>
+<li>table_name.MYD（MYDATA，存储数据）</li>
+<li>table_name.MYI（MYIndex,  存储索引）</li>
+</ul>
+</li>
+<li><p>优点</p>
+<blockquote>
+<p>可以在不同服务器上拷贝数据文件和索引文件，以获得更高效的 <em>IO</em> </p>
+</blockquote>
+</li>
+</ol>
+<h5 id="1-3-存储格式"><a href="#1-3-存储格式" class="headerlink" title="1.3 存储格式"></a>1.3 存储格式</h5><ol>
+<li><p>静态表（默认）</p>
+<blockquote>
+<p>静态表中的字段都是非变长字段，每个记录都是固定长度的，每个记录末尾的空格在返回时会被去掉</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 插入数据</span><br><span class="line"><span class="meta">mysql&gt;</span> insert into test2 values(1,"ccy  "),(2,"  ccy");</span><br><span class="line">Query OK, 2 rows affected (0.44 sec)</span><br><span class="line">Records: 2  Duplicates: 0  Warnings: 0</span><br><span class="line"><span class="meta">#</span> 查询插入存储数据长度，丢失尾部空格</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT name,length(name) from test2;</span><br><span class="line">+-------+--------------+</span><br><span class="line">| name  | length(name) |</span><br><span class="line">+-------+--------------+</span><br><span class="line">| ccy   |            3 |</span><br><span class="line">|   ccy |            5 |</span><br><span class="line">+-------+--------------+</span><br><span class="line">2 rows in set (0.04 sec)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>优点</p>
+<blockquote>
+<p>存储迅速，易于缓存，出现故障容易恢复</p>
+</blockquote>
+</li>
+<li><p>缺点</p>
+<blockquote>
+<p>占用空间比动态表多，造成部分空间浪费</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>动态表</p>
+<blockquote>
+<p>包含边长字段，记录不是固定长度的</p>
+</blockquote>
+<ul>
+<li><p>优点</p>
+<blockquote>
+<p>占用空间相对较少</p>
+</blockquote>
+</li>
+<li><p>缺点</p>
+<blockquote>
+<p>频繁地更新和删除记录会产生碎片，需要定期执行OPTIMIZE TABLE语句或myisamchk -r 命令来改善性能，并且在出现故障时恢复相对比较困难。</p>
+</blockquote>
+</li>
+</ul>
+</li>
+<li><p>压缩表</p>
+<blockquote>
+<p>压缩表由myisampack工具创建，占据非常小的磁盘空间。因为每个记录是被单独压缩的，所以只有非常小的访问开支</p>
+</blockquote>
+</li>
+</ol>
+<h4 id="2-InnoDB"><a href="#2-InnoDB" class="headerlink" title="2. InnoDB"></a>2. InnoDB</h4><blockquote>
+<p><em>InnoDB</em> 存储引擎是5.5版本之后的默认存储引擎，提供了具有提交、回滚和崩溃恢复能力的事务安全。但是对比 <em>MyISAM</em> 的存储引擎，<em>InnoDB</em> <strong>写</strong>的处理效率<strong>差</strong>一些，并且会占用<strong>更多的磁盘空间</strong>以保留数据和索引。</p>
+</blockquote>
+<h5 id="2-1-自动增长-auto-increment"><a href="#2-1-自动增长-auto-increment" class="headerlink" title="2.1 自动增长(auto_increment)"></a>2.1 自动增长(auto_increment)</h5><blockquote>
+<p><em>InnoDB</em> 表的自动增长列可以手工插入，但是插入的值如果是空或者 0，则实际插入的将是自动增长后的值。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 创建带自动增长列的表</span><br><span class="line"><span class="meta">mysql&gt;</span> show create table test3;</span><br><span class="line">+-------+---------------------------------------------------------------+</span><br><span class="line">| Table | Create Table                                                  |</span><br><span class="line">+-------+---------------------------------------------------------------+</span><br><span class="line">| test3 | CREATE TABLE `test3` (</span><br><span class="line">            `id` int(11) NOT NULL AUTO_INCREMENT,</span><br><span class="line">            `name` char(10) DEFAULT NULL,</span><br><span class="line">            PRIMARY KEY (`id`)</span><br><span class="line">          ) ENGINE=InnoDB DEFAULT CHARSET=utf8 |</span><br><span class="line">+-------+---------------------------------------------------------------+</span><br><span class="line">1 row in set (0.10 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>设置初始值，强制的默认值是保留在内存中的，如果该值在使用之前数据库重新启动，那么这个强制的默认值就会丢失，就需要在数据库启动以后重新设置。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 设置自动增长初始值</span><br><span class="line"><span class="meta">mysql&gt;</span> ALTER TABLE test3 AUTO_INCREMENT=10;</span><br><span class="line">Query OK, 0 rows affected (0.40 sec)</span><br><span class="line">Records: 0  Duplicates: 0  Warnings: 0</span><br><span class="line"><span class="meta">#</span> 插入数据并查询是否生效</span><br><span class="line"><span class="meta">mysql&gt;</span> insert into test3(name) value('ccy');</span><br><span class="line">Query OK, 1 row affected (0.12 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test3;</span><br><span class="line">+----+------+</span><br><span class="line">| id | name |</span><br><span class="line">+----+------+</span><br><span class="line">| 10 | ccy  |</span><br><span class="line">+----+------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>使用LAST_INSERT_ID()查询当前线程最后插入记录使用的值。如果一次插入了多条记录，那么返回的是第一条记录使用的自动增长</p>
+</blockquote>
+<h5 id="2-2-事务"><a href="#2-2-事务" class="headerlink" title="2.2 事务"></a>2.2 事务</h5><blockquote>
+<p>事务的介绍和性质请移步 <a href>mysql之事务机制</a></p>
+</blockquote>
+<ol>
+<li>简单使用</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查询所有记录</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1;</span><br><span class="line">Empty set (0.01 sec)</span><br><span class="line"><span class="meta">#</span> 开启事务</span><br><span class="line"><span class="meta">mysql&gt;</span> BEGIN;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 插入数据</span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test1 VALUES (1,'ccy1'),(2,'ccy2');</span><br><span class="line">ERROR 1136 (21S01): Column count doesn't match value count at row 1</span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test1 VALUES (1,'ccy1','12'),(2,'ccy2','13');</span><br><span class="line">Query OK, 2 rows affected (0.12 sec)</span><br><span class="line">Records: 2  Duplicates: 0  Warnings: 0</span><br><span class="line"><span class="meta">#</span> 查询所有数据</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1;</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  1 | ccy1 |   12 |</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">+----+------+------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 回滚</span><br><span class="line"><span class="meta">mysql&gt;</span> rollback;</span><br><span class="line">Query OK, 0 rows affected (0.13 sec)</span><br><span class="line"><span class="meta">#</span> 查询，回滚之后数据插入失败</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1;</span><br><span class="line">Empty set (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 插入</span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test1 VALUES (1,'ccy1','12'),(2,'ccy2','13');</span><br><span class="line">Query OK, 2 rows affected (0.15 sec)</span><br><span class="line">Records: 2  Duplicates: 0  Warnings: 0</span><br><span class="line"><span class="meta">#</span> 提交事务</span><br><span class="line"><span class="meta">mysql&gt;</span> COMMIT;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 查询，提交成功</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1;</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  1 | ccy1 |   12 |</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">+----+------+------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>安全点</li>
+</ol>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 开启事务</span><br><span class="line"><span class="meta">mysql&gt;</span> BEGIN;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test1 VALUES (3,'ccy',16);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 在此处设置安全点</span><br><span class="line"><span class="meta">mysql&gt;</span> SAVEPOINT test1;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test1 VALUES (4,'ccy',17);</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1;</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  1 | ccy1 |   12 |</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">|  3 | ccy  |   16 |</span><br><span class="line">|  4 | ccy  |   17 |</span><br><span class="line">+----+------+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 回滚至某一安全点</span><br><span class="line"><span class="meta">mysql&gt;</span> ROLLBACK TO test1;</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 提交</span><br><span class="line"><span class="meta">mysql&gt;</span> COMMIT;</span><br><span class="line">Query OK, 0 rows affected (0.04 sec)</span><br><span class="line"></span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1;</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  1 | ccy1 |   12 |</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">|  3 | ccy  |   16 |</span><br><span class="line">+----+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-3-外键"><a href="#2-3-外键" class="headerlink" title="2.3 外键"></a>2.3 外键</h5><blockquote>
+<p>外键表示了两个关系之间的相关联系。以另一个关系的外键作主关键字的表被称为主表，具有此外键的表被称为主表的从表。</p>
+</blockquote>
+<ol>
+<li><p>指定删除更新父表时子表的相应操作</p>
+<ul>
+<li><p>RESTRICT</p>
+<blockquote>
+<p>限制在子表有关联记录的情况下父表不能更新</p>
+</blockquote>
+</li>
+<li><p>CASCADE</p>
+<blockquote>
+<p>父表在更新或者删除时，更新或者删除子表对应记录</p>
+</blockquote>
+</li>
+<li><p>SET NULL</p>
+<blockquote>
+<p>表示父表在更新或者删除的时候，子表的对应字段被 SET NULL</p>
+</blockquote>
+</li>
+<li><p>NO ACTION</p>
+<blockquote>
+<p>同 <em>RESTRICT</em> ，限制在子表有关联记录的情况下父表不能更新</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<h5 id="2-4-存储方式"><a href="#2-4-存储方式" class="headerlink" title="2.4 存储方式"></a>2.4 存储方式</h5><ol>
+<li><p>共享表存储</p>
+<blockquote>
+<p>表结构保存在.frm文件中，数据和索引保存在innodb_data_home_dir 和innodb_data_file_path定义的表空间中，可以是多个文件。</p>
+</blockquote>
+</li>
+<li><p>多表空间存储</p>
+<blockquote>
+<p>这种方式创建的表的表结构仍然保存在.frm文件中，但是每个表的数据和索引单独保存在.ibd 中。如果是个分区表，则每个分区对应单独的.ibd 文件，文件名是“表名+分区名”，可以在创建分区的时候指定每个分区的数据文件的位置，以此来将表的IO均匀分布在多个磁盘上</p>
+</blockquote>
+<ul>
+<li><p>使用</p>
+<blockquote>
+<p>设置参数 <em>innodb_file_per_table</em> ，并且<strong>重新启动</strong>服务后才可以使用。多表空间参数生效期间，创建的表属于多表空间表，其他的表仍为共享表，<u>已存在的表的访问方式不会更改</u></p>
+</blockquote>
+</li>
+<li><p>数据文件无大小限制</p>
+</li>
+<li><p>单表恢复备份较容易</p>
+<blockquote>
+<p>因为没有共享表空间的数据字典信息，直接复制的.ibd文件和.frm文件恢复时是不能被正确识别</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 通过以下命令进行恢复</span><br><span class="line">ALTER TABLE table_name DISCARD TABLESPACE;</span><br><span class="line">ALTER TABLE tanle_name IMPORT TABLESPACE;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="3-MEMORY"><a href="#3-MEMORY" class="headerlink" title="3. MEMORY"></a>3. MEMORY</h4><blockquote>
+<p><em>MEMORY</em> 存储引擎使用存在于内存中的内容来创建表。每个<em>MEMORY</em> 表只实际对应一个磁盘文件，格式是.frm。MEMORY类型的表访问非常地快，因为它的<strong><em>数据是放在内存中的，并且默认使用HASH索引</em></strong>，但是一旦<strong>服务关闭</strong>，<strong>表中的数据就会丢失掉</strong> 。</p>
+</blockquote>
+<h4 id="4-MERGE"><a href="#4-MERGE" class="headerlink" title="4. MERGE"></a>4. MERGE</h4><blockquote>
+<p><em>MERGE</em> 存储引擎是一组 <em>MyISAM</em> 表的组合，这些 <em>MyISAM</em> 表必须结构完全相同，<em>MERGE</em> 表本身并没有数据，对 <em>MERGE</em> 类型的表可以进行查询、更新、删除操作，这些操作实际上是对内部的 <em>MyISAM</em> 表进行的。</p>
+</blockquote>
+<h5 id="4-1-插入"><a href="#4-1-插入" class="headerlink" title="4.1 插入"></a>4.1 插入</h5><blockquote>
+<p>对于MERGE类型表的插入操作，是通过INSERT_METHOD子句定义插入的表，可以有3个不同的值，使用FIRST或LAST值使得插入操作被相应地作用在第一或最后一个表上，不定义这个子句或者定义为NO，表示不能对这个MERGE表执行插入操作。</p>
+</blockquote>
+<h5 id="4-2-删除"><a href="#4-2-删除" class="headerlink" title="4.2 删除"></a>4.2 删除</h5><blockquote>
+<p>可以对MERGE表进行DROP操作，这个操作只是删除MERGE的定义，对内部的表没有任何的影响</p>
+</blockquote>
+<h5 id="4-3-存储结构"><a href="#4-3-存储结构" class="headerlink" title="4.3 存储结构"></a>4.3 存储结构</h5><ul>
+<li><p>table_name.frm</p>
+<blockquote>
+<p>存储表定义</p>
+</blockquote>
+</li>
+<li><p>table_name.MRG</p>
+<blockquote>
+<p>存储组合表信息，包括 <em>MERGE</em> 表由哪些表组成、插入新的数据时的依据。可以通过修改 <em>.MRG</em> 文件来修改MERGE表，但是修改后要通过 <em>FLUSH TABLES</em> 刷新。</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="4-4-使用"><a href="#4-4-使用" class="headerlink" title="4.4 使用"></a>4.4 使用</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 创建使用MyISAM的两个表</span><br><span class="line"><span class="meta">mysql&gt;</span> CREATE TABLE test_merge1(</span><br><span class="line">    -&gt; id int,</span><br><span class="line">    -&gt; name char(10)</span><br><span class="line">    -&gt; )engine=MyISAM;</span><br><span class="line">Query OK, 0 rows affected (0.35 sec)</span><br><span class="line"><span class="meta">mysql&gt;</span> CREATE TABLE test_merge2(</span><br><span class="line">    -&gt; id int,</span><br><span class="line">    -&gt; name char(10)</span><br><span class="line">    -&gt; )engine=MyISAM;</span><br><span class="line">Query OK, 0 rows affected (0.12 sec)</span><br><span class="line"><span class="meta">#</span> 使用MERGE将两个表合并</span><br><span class="line"><span class="meta">mysql&gt;</span> CREATE TABLE test_merge_all(</span><br><span class="line">    -&gt; id int,</span><br><span class="line">    -&gt; name char(10)</span><br><span class="line">    -&gt; )ENGINE=MERGE UNIOn=(test_merge1,test_merge2);</span><br><span class="line">Query OK, 0 rows affected (0.14 sec)</span><br><span class="line"><span class="meta">#</span> 分别向两个表插入数据</span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test_merge1 values(1,"ccy_test1");</span><br><span class="line">Query OK, 1 row affected (0.37 sec)</span><br><span class="line"><span class="meta">mysql&gt;</span> INSERT INTO test_merge2 values(2,"ccy_test2");</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 查询总表</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test_merge_all;</span><br><span class="line">+------+-----------+</span><br><span class="line">| id   | name      |</span><br><span class="line">+------+-----------+</span><br><span class="line">|    1 | ccy_test1 |</span><br><span class="line">|    2 | ccy_test2 |</span><br><span class="line">+------+-----------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h3 id="三、存储引擎使用环境"><a href="#三、存储引擎使用环境" class="headerlink" title="三、存储引擎使用环境"></a>三、存储引擎使用环境</h3><h4 id="1-MyISAM-1"><a href="#1-MyISAM-1" class="headerlink" title="1. MyISAM"></a>1. MyISAM</h4><blockquote>
+<p>5.5 前默认的 <em>MySQL</em> 插件式存储引擎。如果应用是以读操作和插入操作为主，只有很少的更新和删除操作，并且对事务的完整性、并发性要求不是很高，那么选择这个存储引擎是非常适合的。<em>MyISAM</em> 是在 Web、数据仓储和其他应用环境下最常使用的存储引擎之一。</p>
+</blockquote>
+<h4 id="2-InnoDB-1"><a href="#2-InnoDB-1" class="headerlink" title="2. InnoDB"></a>2. InnoDB</h4><blockquote>
+<p>用于事务处理应用程序，支持外键。如果应用对事务的完整性有比较高的要求，在并发条件下要求数据的一致性，数据操作除了插入和查询以外，还包括很多的更新、删除操作，那么 <em>InnoDB</em> 存储引擎应该是比较合适的选择。<em>InnoDB</em> 存储引擎除了有效地降低由于删除和更新导致的锁定，还可以确保事务的完整提交（Commit）和回滚（Rollback），对于类似计费系统或者财务系统等对数据准确性要求比较高的系统，<em>InnoDB</em> 都是合适的选择。</p>
+</blockquote>
+<h4 id="3-MEMORY-1"><a href="#3-MEMORY-1" class="headerlink" title="3. MEMORY"></a>3. MEMORY</h4><blockquote>
+<p>将所有数据保存在 <em>RAM</em> 中，在需要快速定位记录和其他类似数据的环境下，可提供极快的访问。<em>MEMORY</em> 的缺陷是对表的大小有限制，太大的表无法缓存在内存中，其次是要确保表的数据可以恢复，数据库异常终止后表中的数据是可以恢复的。<em>MEMORY</em> 表通常用于更新不太频繁的小表，用以快速得到访问结果。</p>
+</blockquote>
+<h4 id="MERGE"><a href="#MERGE" class="headerlink" title="MERGE"></a>MERGE</h4><blockquote>
+<p>用于将一系列等同的 <em>MyISAM</em> 表以逻辑方式组合在一起，并作为一个对象引用它们。MERGE表的优点在于可以突破对单个 <em>MyISAM</em> 表大小的限制，并且通过将不同的表分布在多个磁盘上，可以有效地改善 <em>MERGE</em> 表的访问效率。这对于诸如数据仓储等 <em>VLDB</em> 环境十分适合。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/23/计算机系统-程序的机器级表示/" rel="next" title="">
+                  <i class="fa fa-chevron-left"></i> 
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/11/08/mysql-2数据类型/" rel="prev" title="mysql数据类型">
+                  mysql数据类型 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、MySQL存储引擎概述"><span class="nav-number">1.</span> <span class="nav-text">一、MySQL存储引擎概述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-MySQL支持"><span class="nav-number">1.1.</span> <span class="nav-text">1. MySQL支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-默认存储引擎"><span class="nav-number">1.2.</span> <span class="nav-text">2. 默认存储引擎</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-使用存储引擎"><span class="nav-number">1.3.</span> <span class="nav-text">3. 使用存储引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-创建表时指定存储引擎"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 创建表时指定存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-查看表使用的存储引擎"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 查看表使用的存储引擎</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-3-修改表存储引擎"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 修改表存储引擎</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、存储引擎特性"><span class="nav-number">2.</span> <span class="nav-text">二、存储引擎特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-MyISAM"><span class="nav-number">2.1.</span> <span class="nav-text">1. MyISAM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-创建使用MyISAM的表"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1 创建使用MyISAM的表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-存储结构"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2 存储结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-存储格式"><span class="nav-number">2.1.3.</span> <span class="nav-text">1.3 存储格式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-InnoDB"><span class="nav-number">2.2.</span> <span class="nav-text">2. InnoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-自动增长-auto-increment"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1 自动增长(auto_increment)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-事务"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2 事务</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-外键"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.3 外键</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-存储方式"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.4 存储方式</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-MEMORY"><span class="nav-number">2.3.</span> <span class="nav-text">3. MEMORY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-MERGE"><span class="nav-number">2.4.</span> <span class="nav-text">4. MERGE</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-插入"><span class="nav-number">2.4.1.</span> <span class="nav-text">4.1 插入</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-删除"><span class="nav-number">2.4.2.</span> <span class="nav-text">4.2 删除</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-存储结构"><span class="nav-number">2.4.3.</span> <span class="nav-text">4.3 存储结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-使用"><span class="nav-number">2.4.4.</span> <span class="nav-text">4.4 使用</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、存储引擎使用环境"><span class="nav-number">3.</span> <span class="nav-text">三、存储引擎使用环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-MyISAM-1"><span class="nav-number">3.1.</span> <span class="nav-text">1. MyISAM</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-InnoDB-1"><span class="nav-number">3.2.</span> <span class="nav-text">2. InnoDB</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-MEMORY-1"><span class="nav-number">3.3.</span> <span class="nav-text">3. MEMORY</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MERGE"><span class="nav-number">3.4.</span> <span class="nav-text">MERGE</span></a></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">陈灿勇</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/yourname" title="GitHub &rarr; https://github.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈灿勇</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>

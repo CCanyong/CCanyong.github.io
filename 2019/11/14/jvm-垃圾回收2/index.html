@@ -55,21 +55,21 @@
   };
 </script>
 
-  <meta name="description" content="初步了解计算机系统，了解其硬件组成">
+  <meta name="description" content="参考深入理解java虚拟机，主要讲解了常见垃圾收集器">
 <meta property="og:type" content="article">
-<meta property="og:title" content="计算机硬件组成">
-<meta property="og:url" content="http://yoursite.com/2019/10/16/计算机系统-信息处理/index.html">
+<meta property="og:title" content="jvm之垃圾回收（二）">
+<meta property="og:url" content="http://yoursite.com/2019/11/14/jvm-垃圾回收2/index.html">
 <meta property="og:site_name" content="Ccy&#39;s Blog">
-<meta property="og:description" content="初步了解计算机系统，了解其硬件组成">
+<meta property="og:description" content="参考深入理解java虚拟机，主要讲解了常见垃圾收集器">
 <meta property="og:locale" content="zh">
-<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/计算机系统-硬件基本组成.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/计算机系统-储存设备层次结构.png">
-<meta property="og:updated_time" content="2019-10-23T12:07:15.636Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/jvm-Serial+SerialOld%E8%BF%90%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/jvm-ParNew+SerialOld%E8%BF%90%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+<meta property="og:updated_time" content="2019-11-14T05:01:01.116Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="计算机硬件组成">
-<meta name="twitter:description" content="初步了解计算机系统，了解其硬件组成">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/计算机系统-硬件基本组成.png">
-  <link rel="canonical" href="http://yoursite.com/2019/10/16/计算机系统-信息处理/">
+<meta name="twitter:title" content="jvm之垃圾回收（二）">
+<meta name="twitter:description" content="参考深入理解java虚拟机，主要讲解了常见垃圾收集器">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/CCanyong/pictures/master/jvm-Serial+SerialOld%E8%BF%90%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.png">
+  <link rel="canonical" href="http://yoursite.com/2019/11/14/jvm-垃圾回收2/">
 
 
 <script id="page-configurations">
@@ -83,7 +83,7 @@
   };
 </script>
 
-  <title>计算机硬件组成 | Ccy's Blog</title>
+  <title>jvm之垃圾回收（二） | Ccy's Blog</title>
   
 
 
@@ -220,7 +220,7 @@
   
   
   <div class="post-block post">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/16/计算机系统-信息处理/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/14/jvm-垃圾回收2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="陈灿勇">
@@ -232,7 +232,7 @@
       <meta itemprop="name" content="Ccy's Blog">
     </span>
       <header class="post-header">
-        <h1 class="post-title" itemprop="name headline">计算机硬件组成
+        <h1 class="post-title" itemprop="name headline">jvm之垃圾回收（二）
 
           
         </h1>
@@ -248,19 +248,11 @@
                 
               
 
-              <time title="Created: 2019-10-16 18:21:48" itemprop="dateCreated datePublished" datetime="2019-10-16T18:21:48+08:00">2019-10-16</time>
+              <time title="Created: 2019-11-14 12:59:02 / Modified: 13:01:01" itemprop="dateCreated datePublished" datetime="2019-11-14T12:59:02+08:00">2019-11-14</time>
             </span>
           
             
 
-            
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2019-10-23 20:07:15" itemprop="dateModified" datetime="2019-10-23T20:07:15+08:00">2019-10-23</time>
-              </span>
             
           
             <span class="post-meta-item">
@@ -269,7 +261,7 @@
               </span>
               <span class="post-meta-item-text">In</span>
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/计算机系统/" itemprop="url" rel="index"><span itemprop="name">计算机系统</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/jvm/" itemprop="url" rel="index"><span itemprop="name">jvm</span></a></span>
 
                 
                 
@@ -278,7 +270,7 @@
           
 
           
-            <div class="post-description">初步了解计算机系统，了解其硬件组成</div>
+            <div class="post-description">参考深入理解java虚拟机，主要讲解了常见垃圾收集器</div>
           
 
         </div>
@@ -290,28 +282,43 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h3 id="硬件组成"><a href="#硬件组成" class="headerlink" title="硬件组成"></a>硬件组成</h3><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/计算机系统-硬件基本组成.png" alt="计算机系统-硬件基本组成" style="zoom:80%;">
-
-<h4 id="1-基本组成"><a href="#1-基本组成" class="headerlink" title="1. 基本组成"></a>1. 基本组成</h4><ol>
-<li>总线</li>
-<li>I/O设备</li>
-<li>主存</li>
-<li>处理器</li>
-</ol>
-<h4 id="2-为什么引入高速缓存储存器"><a href="#2-为什么引入高速缓存储存器" class="headerlink" title="2. 为什么引入高速缓存储存器"></a>2. 为什么引入高速缓存储存器</h4><blockquote>
-<p>从IO设备中读取数据比从内存中读取数据慢很多，而从内存中读取数据又比从寄存器中读取数据满，从而使用高速缓存储存器，作为暂时的季节区域，存放处理器近期可能需要的数据</p>
+        <h3 id="一、垃圾收集器"><a href="#一、垃圾收集器" class="headerlink" title="一、垃圾收集器"></a>一、垃圾收集器</h3><h4 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h4><h5 id="1-GC-停顿时间"><a href="#1-GC-停顿时间" class="headerlink" title="1. GC 停顿时间"></a>1. GC 停顿时间</h5><blockquote>
+<p>垃圾收集所用时间长短，降低 <em>GC</em> 停顿时间势必会<strong>牺牲吞吐量和新生代空间</strong>，将新生代调小，每次垃圾收集的<strong>时间就会变短</strong>，但同时也会使得垃圾收集变得<strong>更加频繁</strong></p>
 </blockquote>
-<h4 id="3-储存设备层次结构"><a href="#3-储存设备层次结构" class="headerlink" title="3. 储存设备层次结构"></a>3. 储存设备层次结构</h4><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/计算机系统-储存设备层次结构.png" alt="储存设备层次结构" style="zoom:67%;">
-
-
-
-
-
-
-
-
-
-
+<h5 id="2-吞吐量"><a href="#2-吞吐量" class="headerlink" title="2. 吞吐量"></a>2. 吞吐量</h5><blockquote>
+<p><em>吞吐量 = CPU运行用户代码时间  /（运行用户代码时间+垃圾收集时间）</em> </p>
+</blockquote>
+<blockquote>
+<p>提高吞吐量其实就是提高 cpu 执行有效代码的时间占比</p>
+</blockquote>
+<h4 id="1-Serial收集器"><a href="#1-Serial收集器" class="headerlink" title="1. Serial收集器"></a>1. Serial收集器</h4><blockquote>
+<p>单线程收集器，只使用一条线程进行垃圾收集，同时暂停其他用户线程（Stop The World）</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/jvm-Serial+SerialOld%E8%BF%90%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="Serial+SerialOld运行示意图"></p>
+<h5 id="1-1-适用范围"><a href="#1-1-适用范围" class="headerlink" title="1.1 适用范围"></a>1.1 适用范围</h5><ol>
+<li>常用于 <em>client</em> 模式下的虚拟机</li>
+</ol>
+<h4 id="2-ParNew收集器"><a href="#2-ParNew收集器" class="headerlink" title="2. ParNew收集器"></a>2. ParNew收集器</h4><blockquote>
+<p><em>Serial</em> 收集器的多线程版本，除了使用多线程进行垃圾回收，其他行为都与 <em>Serial</em> 收集器一样（控制参数、收集算法、<em>stop the world、</em>对象分配规则、回收策略）</p>
+</blockquote>
+<p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/jvm-ParNew+SerialOld%E8%BF%90%E8%A1%8C%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="ParNew+SerialOld运行示意图"></p>
+<h5 id="2-1-适用范围"><a href="#2-1-适用范围" class="headerlink" title="2.1 适用范围"></a>2.1 适用范围</h5><ol>
+<li>server 模式下虚拟机首选的新生代收集器</li>
+</ol>
+<h5 id="2-2-局限"><a href="#2-2-局限" class="headerlink" title="2.2 局限"></a>2.2 局限</h5><ol>
+<li>在单 cpu 环境下，表现效果不一定好于Serial收集器，有线程交互开销</li>
+</ol>
+<h4 id="3-Parallel-Scavenge-收集器（吞吐量优先收集器）"><a href="#3-Parallel-Scavenge-收集器（吞吐量优先收集器）" class="headerlink" title="3. Parallel Scavenge 收集器（吞吐量优先收集器）"></a>3. Parallel Scavenge 收集器（吞吐量优先收集器）</h4><blockquote>
+<p>新生代收集器，采用复制算法，同时也是并行的多线程收集器</p>
+</blockquote>
+<h5 id="3-1-特点"><a href="#3-1-特点" class="headerlink" title="3.1 特点"></a>3.1 特点</h5><blockquote>
+<p>CMS 等垃圾收集器致力于缩短垃圾收集时用户线程的停顿时间，而 <em>Parallel Scavenge</em>  收集器的目标时达到一个可控制的吞吐量</p>
+</blockquote>
+<h5 id="3-2-适用范围"><a href="#3-2-适用范围" class="headerlink" title="3.2 适用范围"></a>3.2 适用范围</h5><ol>
+<li>停顿时间越短的收集器就越适合于用户交互的程序，良好的响应速度可以提升用户体验</li>
+<li>高吞吐量收集器可以高效率利用 <em>CPU</em> 时间，尽快完成任务，适用于后台执行而不需要过多交互的任务</li>
+</ol>
+<h4 id="4-Serial-Old-收集器"><a href="#4-Serial-Old-收集器" class="headerlink" title="4. Serial Old 收集器"></a>4. Serial Old 收集器</h4>
     </div>
 
     
@@ -327,8 +334,8 @@
           <div class="post-nav">
             <div class="post-nav-next post-nav-item">
               
-                <a href="/2019/10/14/NIO-初步认识/" rel="next" title="初步认识NIO">
-                  <i class="fa fa-chevron-left"></i> 初步认识NIO
+                <a href="/2019/11/14/jvm-垃圾回收1/" rel="next" title="jvm之垃圾回收（一）">
+                  <i class="fa fa-chevron-left"></i> jvm之垃圾回收（一）
                 </a>
               
             </div>
@@ -336,10 +343,6 @@
             <span class="post-nav-divider"></span>
 
             <div class="post-nav-prev post-nav-item">
-              
-                <a href="/2019/10/23/计算机系统-程序的机器级表示/" rel="prev" title="">
-                   <i class="fa fa-chevron-right"></i>
-                </a>
               
             </div>
           </div>
@@ -386,7 +389,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件组成"><span class="nav-number">1.</span> <span class="nav-text">硬件组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-基本组成"><span class="nav-number">1.1.</span> <span class="nav-text">1. 基本组成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-为什么引入高速缓存储存器"><span class="nav-number">1.2.</span> <span class="nav-text">2. 为什么引入高速缓存储存器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-储存设备层次结构"><span class="nav-number">1.3.</span> <span class="nav-text">3. 储存设备层次结构</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、垃圾收集器"><span class="nav-number">1.</span> <span class="nav-text">一、垃圾收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#前文"><span class="nav-number">1.1.</span> <span class="nav-text">前文</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-GC-停顿时间"><span class="nav-number">1.1.1.</span> <span class="nav-text">1. GC 停顿时间</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-吞吐量"><span class="nav-number">1.1.2.</span> <span class="nav-text">2. 吞吐量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Serial收集器"><span class="nav-number">1.2.</span> <span class="nav-text">1. Serial收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-适用范围"><span class="nav-number">1.2.1.</span> <span class="nav-text">1.1 适用范围</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-ParNew收集器"><span class="nav-number">1.3.</span> <span class="nav-text">2. ParNew收集器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-适用范围"><span class="nav-number">1.3.1.</span> <span class="nav-text">2.1 适用范围</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-局限"><span class="nav-number">1.3.2.</span> <span class="nav-text">2.2 局限</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Parallel-Scavenge-收集器（吞吐量优先收集器）"><span class="nav-number">1.4.</span> <span class="nav-text">3. Parallel Scavenge 收集器（吞吐量优先收集器）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-特点"><span class="nav-number">1.4.1.</span> <span class="nav-text">3.1 特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-适用范围"><span class="nav-number">1.4.2.</span> <span class="nav-text">3.2 适用范围</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Serial-Old-收集器"><span class="nav-number">1.5.</span> <span class="nav-text">4. Serial Old 收集器</span></a></li></ol></li></ol></div>
         
       </div>
       <!--/noindex-->

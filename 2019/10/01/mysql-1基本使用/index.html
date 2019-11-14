@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+
+
+
+
+
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.4.1">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.4.1">
+  <link rel="mask-icon" href="/images/logo.svg?v=7.4.1" color="#222">
+
+<link rel="stylesheet" href="/css/main.css?v=7.4.1">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '7.4.1',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: 'Copy',
+      copy_success: 'Copied',
+      copy_failure: 'Copy failed'
+    },
+    sidebarPadding: 40
+  };
+</script>
+
+  <meta name="description" content="mysql入门，sql语句的基本使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql基本使用">
+<meta property="og:url" content="http://yoursite.com/2019/10/01/mysql-1基本使用/index.html">
+<meta property="og:site_name" content="Ccy&#39;s Blog">
+<meta property="og:description" content="mysql入门，sql语句的基本使用">
+<meta property="og:locale" content="zh">
+<meta property="og:updated_time" content="2019-11-07T23:36:01.480Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="mysql基本使用">
+<meta name="twitter:description" content="mysql入门，sql语句的基本使用">
+  <link rel="canonical" href="http://yoursite.com/2019/10/01/mysql-1基本使用/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>mysql基本使用 | Ccy's Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Ccy's Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+      
+      
+      
+        
+        <li class="menu-item menu-item-首页">
+      
+    
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-question-circle"></i>首页</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-标签">
+      
+    
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-分类">
+      
+    
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+      
+      
+      
+        
+        <li class="menu-item menu-item-归档">
+      
+    
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+
+    
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+      <article itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block post">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/01/mysql-1基本使用/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="陈灿勇">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Ccy's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">mysql基本使用
+
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              
+                
+              
+
+              <time title="Created: 2019-10-01 22:43:06" itemprop="dateCreated datePublished" datetime="2019-10-01T22:43:06+08:00">2019-10-01</time>
+            </span>
+          
+            
+
+            
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-08 07:36:01" itemprop="dateModified" datetime="2019-11-08T07:36:01+08:00">2019-11-08</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            <div class="post-description">mysql入门，sql语句的基本使用</div>
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="一、DDL"><a href="#一、DDL" class="headerlink" title="一、DDL"></a>一、DDL</h3><blockquote>
+<p><strong><em>DATA DEFINITION LANGUAGES</em></strong> （数据定义语言），这些语句定义了不同的数据段、数据库、表、列、索引等数据库对象。常用的语句关键字主要包括 <em>CREATE、DROP、ALTER</em> 等。</p>
+</blockquote>
+<h4 id="1-数据库定义"><a href="#1-数据库定义" class="headerlink" title="1. 数据库定义"></a>1. 数据库定义</h4><h5 id="1-1-查看数据库"><a href="#1-1-查看数据库" class="headerlink" title="1.1 查看数据库"></a>1.1 查看数据库</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SHOW DATABASES;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| mysql              |</span><br><span class="line">| performance_schema |</span><br><span class="line">| sys                |</span><br><span class="line">+--------------------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-2-创建数据库"><a href="#1-2-创建数据库" class="headerlink" title="1.2 创建数据库"></a>1.2 创建数据库</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 创建名为learn_mysql的数据库</span><br><span class="line"><span class="meta">mysql&gt;</span> CREATE DATABASE learn_mysql;</span><br><span class="line">Query OK, 1 row affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-3-删除数据库"><a href="#1-3-删除数据库" class="headerlink" title="1.3 删除数据库"></a>1.3 删除数据库</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 删除数据库</span><br><span class="line"><span class="meta">mysql&gt;</span> DROP DATABASE learn_mysql;</span><br><span class="line">Query OK, 1 row affected (0.27 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="1-4-使用数据库"><a href="#1-4-使用数据库" class="headerlink" title="1.4 使用数据库"></a>1.4 使用数据库</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 使用learn_mysql数据库</span><br><span class="line"><span class="meta">mysql&gt;</span> USE learn_mysql;</span><br><span class="line">Database changed</span><br></pre></td></tr></table></figure>
+
+<h4 id="2-数据表定义"><a href="#2-数据表定义" class="headerlink" title="2. 数据表定义"></a>2. 数据表定义</h4><h5 id="2-1-列出当前数据库所有数据表"><a href="#2-1-列出当前数据库所有数据表" class="headerlink" title="2.1 列出当前数据库所有数据表"></a>2.1 列出当前数据库所有数据表</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SHOW TABLES;</span><br><span class="line">+-----------------------+</span><br><span class="line">| Tables_in_learn_mysql |</span><br><span class="line">+-----------------------+</span><br><span class="line">| test1                 |</span><br><span class="line">+-----------------------+</span><br><span class="line">1 row in set (0.39 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-2-创建数据表"><a href="#2-2-创建数据表" class="headerlink" title="2.2 创建数据表"></a>2.2 创建数据表</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span>  CREATE TABLE `test1` (</span><br><span class="line"><span class="meta">	#</span> 字段名 数据类型 约束条件</span><br><span class="line"><span class="meta">  	-&gt;</span> `id` int(11) NOT NULL, </span><br><span class="line"><span class="meta">  	-&gt;</span> `name` char(10) NOT NULL,</span><br><span class="line"><span class="meta">  	-&gt;</span> `age` int(11) DEFAULT NULL</span><br><span class="line"><span class="meta">  	#</span> ENGINE（存储引擎） CHARSET(字符集)</span><br><span class="line"><span class="meta">	-&gt;</span> ) ENGINE=InnoDB DEFAULT CHARSET=utf8</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-3-查看表详情-字段信息"><a href="#2-3-查看表详情-字段信息" class="headerlink" title="2.3 查看表详情(字段信息)"></a>2.3 查看表详情(字段信息)</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> DESC test1;</span><br><span class="line">+-------+----------+------+-----+---------+-------+</span><br><span class="line">| Field | Type     | Null | Key | Default | Extra |</span><br><span class="line">+-------+----------+------+-----+---------+-------+</span><br><span class="line">| id    | int(11)  | NO   |     | NULL    |       |</span><br><span class="line">| name  | char(10) | NO   |     | NULL    |       |</span><br><span class="line">| age   | int(11)  | YES  |     | NULL    |       |</span><br><span class="line">+-------+----------+------+-----+---------+-------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-4-查看表定义"><a href="#2-4-查看表定义" class="headerlink" title="2.4 查看表定义"></a>2.4 查看表定义</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SHOW CREATE TABLE test1;</span><br><span class="line">+-------+------------------------------------------------------------------+</span><br><span class="line">| Table | Create Table                                                     |</span><br><span class="line">+-------+------------------------------------------------------------------+</span><br><span class="line">| test1 | CREATE TABLE `test1` (</span><br><span class="line">            `id` int(11) NOT NULL,</span><br><span class="line">            `name` char(10) NOT NULL,</span><br><span class="line">            `age` int(11) DEFAULT NULL</span><br><span class="line">          ) ENGINE=InnoDB DEFAULT CHARSET=utf8 							|</span><br><span class="line">+-------+------------------------------------------------------------------+</span><br><span class="line">1 row in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-5-删除表"><a href="#2-5-删除表" class="headerlink" title="2.5 删除表"></a>2.5 删除表</h5><blockquote>
+<p>DROP TABLE table_name</p>
+</blockquote>
+<h5 id="2-6-修改表"><a href="#2-6-修改表" class="headerlink" title="2.6 修改表"></a>2.6 修改表</h5><ol>
+<li><p>修改字段类型</p>
+<blockquote>
+<p>ALTER TABLE table_name <strong>MODIFY</strong> [COLUMN] col_def [FIRST | AFTER col_name]</p>
+</blockquote>
+</li>
+<li><p>添加字段</p>
+<blockquote>
+<p>ALTER TABLE table_name <strong>ADD</strong> [COLUMN] col_def [FIRST | AFTER col_name]</p>
+</blockquote>
+</li>
+<li><p>删除字段</p>
+<blockquote>
+<p>ALTER TABLE table_name <strong>DROP</strong> [COLUMN] col_name</p>
+</blockquote>
+</li>
+<li><p>字段重命名</p>
+<blockquote>
+<p>ALTER TABLE table_name <strong>CHANGE</strong> old_col_name col_def</p>
+</blockquote>
+</li>
+<li><p>修改表名</p>
+<blockquote>
+<p>ALTER TABLE table_name RENAME [TO] new_name</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="二、DML"><a href="#二、DML" class="headerlink" title="二、DML"></a>二、DML</h3><blockquote>
+<p><strong><em>Data Manipulation Language</em></strong> （数据操纵语句），用于添加、删除、更新和查询数据库记录，并检查数据完整性。常用的语句关键字主要包括 <em>INSERT、DELETE、UPDATE、SELECT</em> 等。</p>
+</blockquote>
+<h4 id="1-插入数据-INSERT"><a href="#1-插入数据-INSERT" class="headerlink" title="1. 插入数据 (INSERT)"></a>1. 插入数据 (INSERT)</h4><h5 id="1-1-插入单条记录"><a href="#1-1-插入单条记录" class="headerlink" title="1.1 插入单条记录"></a>1.1 插入单条记录</h5><blockquote>
+<p>INSERT INTO table_name(col_name,…) VALUES(col_value,…);</p>
+</blockquote>
+<h5 id="1-2-插入多条记录"><a href="#1-2-插入多条记录" class="headerlink" title="1.2 插入多条记录"></a>1.2 插入多条记录</h5><blockquote>
+<p>INSERT INTO table_name(col_name,…) VALUES(col_value,…),(col_value,…),…;</p>
+</blockquote>
+<h4 id="2-修改数据-UPDATE"><a href="#2-修改数据-UPDATE" class="headerlink" title="2. 修改数据 (UPDATE)"></a>2. 修改数据 (UPDATE)</h4><h5 id="2-1-修改单表数据"><a href="#2-1-修改单表数据" class="headerlink" title="2.1 修改单表数据"></a>2.1 修改单表数据</h5><blockquote>
+<p>UPDATE table_name SET field1=val1,field2=val2,… [WHERE CONDITION]; </p>
+</blockquote>
+<h5 id="2-2-多表数据同时修改"><a href="#2-2-多表数据同时修改" class="headerlink" title="2.2 多表数据同时修改"></a>2.2 多表数据同时修改</h5><blockquote>
+<p>UPDATE t1,t2,…,tn SET t1.field1=val1 ,t2.filed1=val2,..[WHERE CONDITION];</p>
+</blockquote>
+<h4 id="3-删除数据-DELETE"><a href="#3-删除数据-DELETE" class="headerlink" title="3. 删除数据 (DELETE)"></a>3. 删除数据 (DELETE)</h4><h5 id="3-1-删除单表数据"><a href="#3-1-删除单表数据" class="headerlink" title="3.1 删除单表数据"></a>3.1 删除单表数据</h5><blockquote>
+<p>DELETE FROM TABLE [WHERE CONDITION];</p>
+</blockquote>
+<h5 id="3-2-多表数据同时删除"><a href="#3-2-多表数据同时删除" class="headerlink" title="3.2 多表数据同时删除"></a>3.2 多表数据同时删除</h5><blockquote>
+<p>DELETE FROM t1,t2,…,tn [WHERE CONDITION];</p>
+</blockquote>
+<h4 id="4-查询"><a href="#4-查询" class="headerlink" title="4. 查询"></a>4. 查询</h4><h5 id="4-1-简单查询"><a href="#4-1-简单查询" class="headerlink" title="4.1 简单查询"></a>4.1 简单查询</h5><ol>
+<li><p>查询所有记录</p>
+<blockquote>
+<p>SELECT * FROM table_name</p>
+</blockquote>
+</li>
+<li><p>记录去重</p>
+<blockquote>
+<p>SELECT DISTINCT col_name(可以为*) FROM table_name</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查询所有记录</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1;</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  1 | ccy1 |   12 |</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">|  3 | ccy  |   16 |</span><br><span class="line">|  4 | ccy  |   16 |</span><br><span class="line">+----+------+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 查询所有记录并去除完全重复记录</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT DISTINCT * FROM test1;</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  1 | ccy1 |   12 |</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">|  3 | ccy  |   16 |</span><br><span class="line">|  4 | ccy  |   16 |</span><br><span class="line">+----+------+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 查询name字段数据并去重</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT DISTINCT name FROM test1;</span><br><span class="line">+------+</span><br><span class="line">| name |</span><br><span class="line">+------+</span><br><span class="line">| ccy1 |</span><br><span class="line">| ccy2 |</span><br><span class="line">| ccy  |</span><br><span class="line">+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>条件查询</p>
+<blockquote>
+<p>SELECT * FROM table_name [WHERE CONDITION]</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>条件运算符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>=</td>
+<td>相等</td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>大于</td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>大于等于</td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td>!= (&lt;&gt;)</td>
+<td>不等于</td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1 WHERE name='ccy';</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  3 | ccy  |   16 |</span><br><span class="line">|  4 | ccy  |   16 |</span><br><span class="line">+----+------+------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>排序</p>
+<blockquote>
+<p>关键字ORDER BY来实现，DESC和ASC是排序顺序关键字，DESC表示按照字段进行降序排列，ASC则表示升序排列，如果不写此关键字默认是升序排列。ORDER BY后面可以跟多个不同的排序字段，并且每个排序字段可以有不同的排序顺序，按照字段顺序作为排序依据</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 语法格式</span><br><span class="line"><span class="meta">#</span> SELECT * FROM table_name [WHERE CONFITION] [ORDER BY] col_name</span><br><span class="line"><span class="meta">#</span> [DESC|ASC],col_name2 [DESC|ASC],...,col_namen [DESC|ASC]</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1 ORDER BY id DESC;</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  4 | ccy  |   16 |</span><br><span class="line">|  3 | ccy  |   16 |</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">|  1 | ccy1 |   12 |</span><br><span class="line">+----+------+------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>记录条数限制</p>
+<blockquote>
+<p>SELECT * FROM table_name [LIMIT start, end]</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 默认情况下，其实偏移量为0，数字为记录条数</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1 LIMIT 2;</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  1 | ccy1 |   12 |</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">+----+------+------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 从第一条到第三条（从0开始计算）</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1 LIMIT 1,3;</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">|  3 | ccy  |   16 |</span><br><span class="line">|  4 | ccy  |   16 |</span><br><span class="line">+----+------+------+</span><br><span class="line">3 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>聚合函数</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 语法</span><br><span class="line"><span class="meta">#</span> SELECT [col_1,col_2,...,col_n] fun_name FROM table_name</span><br><span class="line"><span class="meta">#</span> [WHERE CONDITION] [GROUP BY col_1,...,col_n [WITH ROLLUP]]</span><br><span class="line"><span class="meta">#</span> [HAVING where_condition]</span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT COUNT(*) FROM test1;</span><br><span class="line">+----------+</span><br><span class="line">| COUNT(*) |</span><br><span class="line">+----------+</span><br><span class="line">|        4 |</span><br><span class="line">+----------+</span><br><span class="line">1 row in set (0.03 sec)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h5 id="4-2-多表查询"><a href="#4-2-多表查询" class="headerlink" title="4.2 多表查询"></a>4.2 多表查询</h5><ol>
+<li><p>表连接</p>
+<blockquote>
+<p>表连接分为<strong>内连接</strong>和<strong>外连接</strong>，它们之间的最主要区别是，内连接仅选出两张表中互相匹配的记录，而外连接会选出其他不匹配的记录。常用内连接</p>
+</blockquote>
+</li>
+<li><p>内连接</p>
+<blockquote>
+<p>SELECT * FROM t1, t2 WHERE t1.c1=t2.c1</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1,test2 WHERE test1.id=test2.id;</span><br><span class="line">+----+------+------+----+-------+</span><br><span class="line">| id | name | age  | id | name  |</span><br><span class="line">+----+------+------+----+-------+</span><br><span class="line">|  1 | ccy1 |   12 |  1 | ccy   |</span><br><span class="line">|  2 | ccy2 |   13 |  2 |   ccy |</span><br><span class="line">+----+------+------+----+-------+</span><br><span class="line">2 rows in set (0.28 sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>外连接</p>
+<ul>
+<li><p>左连接</p>
+<blockquote>
+<p>包含所有的左边表中的记录甚至是右边表中没有和它匹配的记录</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1 left join test2 on test1.id=test2.id;</span><br><span class="line">+----+------+------+------+-------+</span><br><span class="line">| id | name | age  | id   | name  |</span><br><span class="line">+----+------+------+------+-------+</span><br><span class="line">|  1 | ccy1 |   12 |    1 | ccy   |</span><br><span class="line">|  2 | ccy2 |   13 |    2 |   ccy |</span><br><span class="line">|  3 | ccy  |   16 | NULL | NULL  |</span><br><span class="line">|  4 | ccy  |   16 | NULL | NULL  |</span><br><span class="line">+----+------+------+------+-------+</span><br><span class="line">4 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>右连接</p>
+<blockquote>
+<p>包含所有的右边表中的记录甚至是左边表中没有和它匹配的记录</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1 right join test2 on test1.id=test2.id;</span><br><span class="line">+------+------+------+----+-------+</span><br><span class="line">| id   | name | age  | id | name  |</span><br><span class="line">+------+------+------+----+-------+</span><br><span class="line">|    1 | ccy1 |   12 |  1 | ccy   |</span><br><span class="line">|    2 | ccy2 |   13 |  2 |   ccy |</span><br><span class="line">+------+------+------+----+-------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ol>
+<h5 id="4-3-子查询"><a href="#4-3-子查询" class="headerlink" title="4.3 子查询"></a>4.3 子查询</h5><blockquote>
+<p>当进行查询的时候，需要的条件是另外一个 <em>select</em> 语句的结果，这个时候，就要用到子查询。用于子查询的关键字主要包括 <em>in、not in、=、!=、exists、not exists</em> 等。</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 查询test1中与test2的id相同的记录 </span><br><span class="line"><span class="meta">mysql&gt;</span> SELECT * FROM test1 WHERE id in (SELECT id FROM test2);</span><br><span class="line">+----+------+------+</span><br><span class="line">| id | name | age  |</span><br><span class="line">+----+------+------+</span><br><span class="line">|  1 | ccy1 |   12 |</span><br><span class="line">|  2 | ccy2 |   13 |</span><br><span class="line">+----+------+------+</span><br><span class="line">2 rows in set (0.03 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="4-4-记录联合"><a href="#4-4-记录联合" class="headerlink" title="4.4 记录联合"></a>4.4 记录联合</h5><blockquote>
+<p>两个表的数据按照一定的查询条件查询出来后，将结果合并到一起显示出来，这个时候，就需要用 <em>union</em> 和 <em>union all</em> 关键字来实现这样的功能</p>
+</blockquote>
+<ol>
+<li><p>UNION ALL</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SELECT name FROM test1 UNION ALL SELECT name FROM test2;</span><br><span class="line">+-------+</span><br><span class="line">| name  |</span><br><span class="line">+-------+</span><br><span class="line">| ccy1  |</span><br><span class="line">| ccy2  |</span><br><span class="line">| ccy   |</span><br><span class="line">| ccy   |</span><br><span class="line">| ccy   |</span><br><span class="line">|   ccy |</span><br><span class="line">+-------+</span><br><span class="line">6 rows in set (0.02 sec)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>UNION</p>
+<blockquote>
+<p>UNION ALL结果集去重后数据集</p>
+</blockquote>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">mysql&gt;</span> SELECT name FROM test1 UNION SELECT name FROM test2;</span><br><span class="line">+-------+</span><br><span class="line">| name  |</span><br><span class="line">+-------+</span><br><span class="line">| ccy1  |</span><br><span class="line">| ccy2  |</span><br><span class="line">| ccy   |</span><br><span class="line">|   ccy |</span><br><span class="line">+-------+</span><br><span class="line">4 rows in set (0.05 sec)</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="三、DCL"><a href="#三、DCL" class="headerlink" title="三、DCL"></a>三、DCL</h3><blockquote>
+<p><strong><em>Data Control Language</em></strong> （数据控制语句），用于控制不同数据段直接的许可和访问级别的语句。这些语句定义了数据库、表、字段、用户的<strong>访问权限和安全级别</strong>。主要的语句关键字包括 <em>DRANT、REVOKE</em> 等。</p>
+</blockquote>
+<h4 id="1-创建数据库用户并指定权限"><a href="#1-创建数据库用户并指定权限" class="headerlink" title="1. 创建数据库用户并指定权限"></a>1. 创建数据库用户并指定权限</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> GRANT [SELECT|INSERT] ON database_name.table_name to user_name IDENTIFIED</span><br><span class="line"><span class="meta">#</span> BY password</span><br><span class="line"><span class="meta">#</span> 创建用户并赋予权限</span><br><span class="line"><span class="meta">mysql&gt;</span> GRANT SELECT ON learn_mysql.* TO 'ccy'@'localhost' IDENTIFIED BY '123456';</span><br><span class="line">Query OK, 0 rows affected, 1 warning (0.06 sec)</span><br><span class="line"><span class="meta">#</span> 以该用户登陆后数据库状态</span><br><span class="line"><span class="meta">mysql&gt;</span> show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| learn_mysql        |</span><br><span class="line">+--------------------+</span><br><span class="line">2 rows in set (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 插入数据是提示无权限</span><br><span class="line"><span class="meta">mysql&gt;</span> insert into test1 values(10,'cc',10);</span><br><span class="line">ERROR 1142 (42000): INSERT command denied to user 'ccy'@'localhost' for table 'test1'</span><br><span class="line"><span class="meta">#</span> ROOT用户下修改权限</span><br><span class="line"><span class="meta">mysql&gt;</span> GRANT INSERT,SELECT ON learn_mysql.* TO 'ccy'@'localhost';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br><span class="line"><span class="meta">#</span> 插入成功</span><br><span class="line"><span class="meta">mysql&gt;</span> insert into test1 values(10,'cc',10);</span><br><span class="line">Query OK, 1 row affected (0.12 sec)</span><br></pre></td></tr></table></figure>
+
+<h5 id="2-回收权限"><a href="#2-回收权限" class="headerlink" title="2. 回收权限"></a>2. 回收权限</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> REVOKE [INSERT|SELECT] ON database_name.table_name FROM user_name;</span><br><span class="line"><span class="meta">#</span> ROOT用户权限下</span><br><span class="line"><span class="meta">mysql&gt;</span> REVOKE INSERT ON learn_mysql.* FROM 'ccy'@'localhost';</span><br><span class="line">Query OK, 0 rows affected (0.00 sec)</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+        
+      
+
+      <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+              
+                <a href="/2019/10/01/设计模式-七大原则/" rel="next" title="七大原则">
+                  <i class="fa fa-chevron-left"></i> 七大原则
+                </a>
+              
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+              
+                <a href="/2019/10/01/并发-java多线程基础/" rel="prev" title="线程简介">
+                  线程简介 <i class="fa fa-chevron-right"></i>
+                </a>
+              
+            </div>
+          </div>
+        
+      </footer>
+    
+  </div>
+  
+  
+  
+  </article>
+
+  </div>
+
+
+          </div>
+          
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+        
+        
+        
+        
+      
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一、DDL"><span class="nav-number">1.</span> <span class="nav-text">一、DDL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-数据库定义"><span class="nav-number">1.1.</span> <span class="nav-text">1. 数据库定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-查看数据库"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.1 查看数据库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-创建数据库"><span class="nav-number">1.1.2.</span> <span class="nav-text">1.2 创建数据库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-3-删除数据库"><span class="nav-number">1.1.3.</span> <span class="nav-text">1.3 删除数据库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-4-使用数据库"><span class="nav-number">1.1.4.</span> <span class="nav-text">1.4 使用数据库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-数据表定义"><span class="nav-number">1.2.</span> <span class="nav-text">2. 数据表定义</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-列出当前数据库所有数据表"><span class="nav-number">1.2.1.</span> <span class="nav-text">2.1 列出当前数据库所有数据表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-创建数据表"><span class="nav-number">1.2.2.</span> <span class="nav-text">2.2 创建数据表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-3-查看表详情-字段信息"><span class="nav-number">1.2.3.</span> <span class="nav-text">2.3 查看表详情(字段信息)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-4-查看表定义"><span class="nav-number">1.2.4.</span> <span class="nav-text">2.4 查看表定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-5-删除表"><span class="nav-number">1.2.5.</span> <span class="nav-text">2.5 删除表</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-6-修改表"><span class="nav-number">1.2.6.</span> <span class="nav-text">2.6 修改表</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、DML"><span class="nav-number">2.</span> <span class="nav-text">二、DML</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-插入数据-INSERT"><span class="nav-number">2.1.</span> <span class="nav-text">1. 插入数据 (INSERT)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-1-插入单条记录"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1 插入单条记录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#1-2-插入多条记录"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2 插入多条记录</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-修改数据-UPDATE"><span class="nav-number">2.2.</span> <span class="nav-text">2. 修改数据 (UPDATE)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-1-修改单表数据"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1 修改单表数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-2-多表数据同时修改"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2 多表数据同时修改</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-删除数据-DELETE"><span class="nav-number">2.3.</span> <span class="nav-text">3. 删除数据 (DELETE)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#3-1-删除单表数据"><span class="nav-number">2.3.1.</span> <span class="nav-text">3.1 删除单表数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-2-多表数据同时删除"><span class="nav-number">2.3.2.</span> <span class="nav-text">3.2 多表数据同时删除</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-查询"><span class="nav-number">2.4.</span> <span class="nav-text">4. 查询</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#4-1-简单查询"><span class="nav-number">2.4.1.</span> <span class="nav-text">4.1 简单查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-2-多表查询"><span class="nav-number">2.4.2.</span> <span class="nav-text">4.2 多表查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-3-子查询"><span class="nav-number">2.4.3.</span> <span class="nav-text">4.3 子查询</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#4-4-记录联合"><span class="nav-number">2.4.4.</span> <span class="nav-text">4.4 记录联合</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、DCL"><span class="nav-number">3.</span> <span class="nav-text">三、DCL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-创建数据库用户并指定权限"><span class="nav-number">3.1.</span> <span class="nav-text">1. 创建数据库用户并指定权限</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#2-回收权限"><span class="nav-number">3.1.1.</span> <span class="nav-text">2. 回收权限</span></a></li></ol></li></ol></li></ol></div>
+        
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">陈灿勇</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        
+          <a href="/archives">
+        
+          <span class="site-state-item-count">25</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+    
+      
+      
+      <div class="site-state-item site-state-categories">
+        
+          
+            <a href="/categories/">
+          
+        
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span>
+        </a>
+      </div>
+    
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+      
+      
+        
+      
+      
+        
+      
+        <a href="https://github.com/yourname" title="GitHub &rarr; https://github.com/yourname" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+    
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">陈灿勇</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.9.0</div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.4.1</div>
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js?v=3.1.0"></script>
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+<script src="/js/utils.js?v=7.4.1"></script><script src="/js/motion.js?v=7.4.1"></script>
+<script src="/js/schemes/muse.js?v=7.4.1"></script>
+<script src="/js/next-boot.js?v=7.4.1"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
