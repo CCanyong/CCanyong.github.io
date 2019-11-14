@@ -798,7 +798,7 @@
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
             
-            <a href="/2019/10/23/计算机系统-程序的机器级表示/" class="post-title-link" itemprop="url">Untitled</a>
+            <a href="/2019/10/23/计算机系统-程序的机器级表示/" class="post-title-link" itemprop="url">计算机硬件组成</a>
           
         </h1>
 
@@ -813,12 +813,33 @@
                 
               
 
-              <time title="Created: 2019-10-23 19:54:17 / Modified: 20:30:04" itemprop="dateCreated datePublished" datetime="2019-10-23T19:54:17+08:00">2019-10-23</time>
+              <time title="Created: 2019-10-23 19:54:17" itemprop="dateCreated datePublished" datetime="2019-10-23T19:54:17+08:00">2019-10-23</time>
             </span>
           
             
 
             
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2019-11-14 13:06:38" itemprop="dateModified" datetime="2019-11-14T13:06:38+08:00">2019-11-14</time>
+              </span>
+            
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/计算机系统/" itemprop="url" rel="index"><span itemprop="name">计算机系统</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -832,70 +853,16 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h3 id="数据格式"><a href="#数据格式" class="headerlink" title="数据格式"></a>数据格式</h3><blockquote>
-<p>由于计算机体系是由16位开始扩展的，术语 <strong><em>“ 字 ”</em></strong> 表示16位数据类型，32位为 <strong><em>“ 双字 ”</em></strong> ，64位为 <strong><em>“ 四字 ”</em></strong>。</p>
-</blockquote>
-<h3 id="一、访问信息（以x86-64为例）"><a href="#一、访问信息（以x86-64为例）" class="headerlink" title="一、访问信息（以x86-64为例）"></a>一、访问信息（以x86-64为例）</h3><blockquote>
-<p>中央处理器包含一组16个存储64位值的通用目的寄存器，用来存储整数数据和指针</p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F-x86-64%E5%AF%84%E5%AD%98%E5%99%A8%E7%A4%BA%E6%84%8F%E5%9B%BE.png" alt="x86-64寄存器示意图.png"></p>
-<h4 id="1-数据存储规则"><a href="#1-数据存储规则" class="headerlink" title="1. 数据存储规则"></a>1. 数据存储规则</h4><ul>
-<li>生成1、2字节数据时，剩下的字节保持不变</li>
-<li>生成4字节时高位4字节全部置0</li>
-</ul>
-<h4 id="2-操作数"><a href="#2-操作数" class="headerlink" title="2. 操作数"></a>2. 操作数</h4><h5 id="2-1-立即数"><a href="#2-1-立即数" class="headerlink" title="2.1 立即数"></a>2.1 立即数</h5><blockquote>
-<p>用来表示常数值</p>
-</blockquote>
-<h5 id="2-2-寄存器"><a href="#2-2-寄存器" class="headerlink" title="2.2 寄存器"></a>2.2 寄存器</h5><blockquote>
-<p>表示某个寄存器的内容，寄存器的低位1、2、4、8字节中的一个作为操作数</p>
-</blockquote>
-<h5 id="2-3-内存引用"><a href="#2-3-内存引用" class="headerlink" title="2.3 内存引用"></a>2.3 内存引用</h5><blockquote>
-<p>会根据计算出来的内存地址访问某个内存位置                                                       </p>
-</blockquote>
-<p><img src="https://raw.githubusercontent.com/CCanyong/pictures/master/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F-%E6%93%8D%E4%BD%9C%E6%95%B0%E6%A0%BC%E5%BC%8F.png" alt="操作数格式"></p>
-<h4 id="3-数据传送指令"><a href="#3-数据传送指令" class="headerlink" title="3. 数据传送指令"></a>3. 数据传送指令</h4><blockquote>
-<p>将数据从一个位置复制到另一个位置</p>
-</blockquote>
-<table>
-<thead>
-<tr>
-<th>指令</th>
-<th>作用</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>MOV    src, dest</td>
-<td>dest  &lt;- src</td>
-<td>传送数据</td>
-</tr>
-<tr>
-<td>movb    src, dest</td>
-<td></td>
-<td>传送字节</td>
-</tr>
-<tr>
-<td>movw    src, dest</td>
-<td></td>
-<td>传送字</td>
-</tr>
-<tr>
-<td>movl    src, dest</td>
-<td></td>
-<td>传送双字</td>
-</tr>
-<tr>
-<td>movq    src, dest</td>
-<td></td>
-<td>传送四字</td>
-</tr>
-<tr>
-<td>movabsq    I, R</td>
-<td>R &lt;- I</td>
-<td>传送绝对四字</td>
-</tr>
-</tbody></table>
-
+          了解汇编代码的使用
+          <!--noindex-->
+          
+            <div class="post-button">
+              <a class="btn" href="/2019/10/23/计算机系统-程序的机器级表示/">
+                Read more &raquo;
+              </a>
+            </div>
+          
+          <!--/noindex-->
         
       
     </div>
